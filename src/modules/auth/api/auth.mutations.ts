@@ -2,45 +2,51 @@
 
 import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
-import { loginRequest } from "./auth.service";
+import { loginRequest, recoverPassword } from "./auth.service";
 import { useAuthStore } from "../store/auth.store";
+import { toast } from "sonner";
 
-export const useLoginMutation = () => {
-	const router = useRouter();
-	const { setAuth } = useAuthStore();
+export const useAuthMutations = () => {
+  const router = useRouter();
+  const { setAuth } = useAuthStore();
 
-	return useMutation({
-		mutationFn: loginRequest, // calls backend /auth/login
-		onSuccess: async (data) => {
-			// 1️⃣  Extract access_token from backend response
-			const { access_token } = data;
-			if (!access_token) {
-				console.error("No access_token in response");
-				return;
-			}
+  return useMutation({
+    mutationFn: loginRequest,
+    onSuccess: async (data) => {
+      const { access_token } = data;
+      if (!access_token) return;
 
-			// 2️⃣  Save to Zustand (optional for UI state)
-			setAuth({ access_token: access_token, user: data.user ?? null });
+      setAuth({ access_token, user: data.user ?? null });
 
-			// 3️⃣  Ask Next.js route handler to store it securely
-			const response = await fetch("/api/auth/session", {
-				method: "POST",
-				headers: { "Content-Type": "application/json" },
-				body: JSON.stringify({ access_token }),
-				credentials: "include",
-			});
+      await fetch("/api/auth/session", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ access_token }),
+        credentials: "include",
+      });
 
-			if (!response.ok) {
-				console.error("Failed to set access_token cookie");
-				return;
-			}
+      router.replace("/");
+    },
+  });
+};
 
-			// 4️⃣  Redirect after cookie is set
-			router.replace("/");
-		},
-		onError: (err: unknown) => {
-			const message = err instanceof Error ? err.message : "Login failed";
-			console.error(message);
-		},
-	});
+export const useRecoverPasswordMutation = (
+  opts?: {
+    onSuccess?: (data: any) => void;
+    onError?: (err: unknown) => void;
+  }
+) => {
+  return useMutation({
+    mutationFn: recoverPassword,
+    onSuccess: (data) => {
+      toast.success(`Амжилттай солигдлоо. Та "${data.email}" хаягаар орно уу.`);
+      opts?.onSuccess?.(data);
+    },
+    onError: (err: unknown) => {
+      const message =
+        err instanceof Error ? err.message : "Нууц үг сэргээхэд алдаа гарлаа.";
+      toast.error(message);
+      opts?.onError?.(err);
+    },
+  });
 };

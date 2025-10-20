@@ -20,7 +20,7 @@ import Image from 'next/image'
 const items = [
   {
     title: 'Дашбоард',
-    url: '/dashboard',
+    url: '/',
     icon: BarChart2,
   },
   {

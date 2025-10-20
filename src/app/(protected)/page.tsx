@@ -24,7 +24,7 @@ const HomePage = () => {
 		<div className="">
 			{data && (
 				<>
-					<div className="flex justify-center">
+					<div className="flex justify-center gap-4">
 						{miniChartData.map((mini, i) => {
 							const count =
 								data?.merchant[
@@ -43,7 +43,7 @@ const HomePage = () => {
 							);
 						})}
 					</div>
-					<div className="flex gap-2 w-full justify-center">
+					<div className="flex gap-4 w-full justify-center mt-4">
 						<div className="flex-2">
 							<DynamicApexBarChart
 								series={data?.p2p_transactions}
@@ -57,7 +57,7 @@ const HomePage = () => {
 							/>
 						</div>
 					</div>
-					<div>
+					<div className="mt-4">
 						<DynamicApexAreChart data={data?.dashboard} />
 					</div>
 				</>

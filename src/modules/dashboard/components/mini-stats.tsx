@@ -18,7 +18,7 @@ const MiniStats = ({ text, data, icon }: Props) => {
 
   return (
     <>
-      <div className="flex justify-between items-center">
+      <div className="flex justify-between items-center mx-4">
         <div className="flex flex-col">
           <div className="text-text-title font-extrabold">{text}</div>
           <m.h1 className="text-text-main font-bold text-3xl dark:text-gray-400">

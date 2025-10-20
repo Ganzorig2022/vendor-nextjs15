@@ -1,98 +1,177 @@
 "use client";
 
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { loginSchema, LoginInput } from "../schema/login.schema";
-import { useLoginMutation } from "../api/auth.mutations";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { Card } from "@/components/ui/card";
 import {
 	Form,
+	FormControl,
 	FormField,
 	FormItem,
-	FormLabel,
-	FormControl,
 	FormMessage,
 } from "@/components/ui/form";
-import { motion } from "framer-motion";
-import { LogIn } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { m } from "framer-motion";
+import { Eye, EyeOff, Loader2 } from "lucide-react";
+import { useTheme } from "next-themes";
+import dynamic from "next/dynamic";
+import Image from "next/image";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import * as z from "zod";
+import {
+	useAuthMutations,
+	useRecoverPasswordMutation,
+} from "../api/auth.mutations";
+import { loginSchema } from "../schema/login.schema";
+const DynamicRecoverPasswordModal = dynamic(
+	() => import("@/modules/auth/components/recover-password-modal"),
+	{ ssr: false }
+);
 
 export const LoginForm = () => {
-	const form = useForm<LoginInput>({
+	const form = useForm<z.infer<typeof loginSchema>>({
 		resolver: zodResolver(loginSchema),
 		defaultValues: { username: "", password: "" },
 	});
+	const { theme } = useTheme();
+	const loginMutation = useAuthMutations();
+	const recoverPasswordMutation = useRecoverPasswordMutation({
+		onSuccess: () => {
+			setRecoveryUserName("");
+			setOpenPasswordRecoverModal(false);
+		},
+	});
+	const loading = loginMutation.isPending || recoverPasswordMutation.isPending;
+	const [submitError, setSubmitError] = useState("");
+	const [showPassword, setShowPassword] = useState(false);
+	const [openPasswordRecoverModal, setOpenPasswordRecoverModal] =
+		useState(false);
+	const [recoveryUserName, setRecoveryUserName] = useState("");
 
-	const loginMutation = useLoginMutation();
-
-	const onSubmit = (values: LoginInput) => {
+	const onSubmit = (values: z.infer<typeof loginSchema>) => {
 		loginMutation.mutate(values);
+	};
+	const onRecoverPass = () => {
+		if (!recoveryUserName) {
+			return toast.error("Нэвтрэх нэрээ оруулна уу.");
+		}
+		recoverPasswordMutation.mutate({ username: recoveryUserName });
 	};
 
 	return (
-		<motion.div
-			initial={{ opacity: 0, y: 40 }}
-			animate={{ opacity: 1, y: 0 }}
-			transition={{ type: "spring", duration: 0.7 }}
-			className="flex justify-center items-center min-h-screen">
-			<Card className="w-full max-w-md shadow-2xl border border-gray-200">
-				<CardHeader>
-					<CardTitle className="text-center text-2xl font-semibold flex items-center justify-center gap-2">
-						<LogIn className="h-5 w-5" /> Нэвтрэх
-					</CardTitle>
-				</CardHeader>
-				<CardContent>
-					<Form {...form}>
-						<form
-							onSubmit={form.handleSubmit(onSubmit)}
-							className="space-y-5">
-							<FormField
-								control={form.control}
-								name="username"
-								render={({ field }) => (
-									<FormItem>
-										<FormLabel>Имэйл</FormLabel>
-										<FormControl>
-											<Input
-												type="username"
-												placeholder="Нэвтрэх нэр"
-												{...field}
-											/>
-										</FormControl>
-										<FormMessage />
-									</FormItem>
-								)}
-							/>
-							<FormField
-								control={form.control}
-								name="password"
-								render={({ field }) => (
-									<FormItem>
-										<FormLabel>Нууц үг</FormLabel>
-										<FormControl>
-											<Input
-												type="password"
-												placeholder="********"
-												{...field}
-											/>
-										</FormControl>
-										<FormMessage />
-									</FormItem>
-								)}
-							/>
-							<Button
-								type="submit"
-								className="w-full mt-2"
-								disabled={loginMutation.isPending}>
-								{loginMutation.isPending
-									? "Нэвтэрч байна..."
-									: "Нэвтрэх"}
-							</Button>
-						</form>
-					</Form>
-				</CardContent>
+		<div>
+			<Card className={`${theme === "dark" && "border"}`}>
+				<Form {...form}>
+					<form
+						onChange={() => {
+							if (submitError) setSubmitError("");
+						}}
+						onSubmit={form.handleSubmit(onSubmit)}
+						className="w-full sm:justify-center sm:w-[400px] flex flex-col gap-6 relative p-4">
+						<Image
+							src={
+								theme === "dark"
+									? "/logo.svg"
+									: "/logo-blue.svg"
+							}
+							alt="Qpay Logo"
+							width={250}
+							height={200}
+							className="mx-auto"
+							priority
+						/>
+						<FormField
+							// disabled={loading}
+							control={form.control}
+							name="username"
+							render={({ field }) => (
+								<FormItem>
+									<FormControl>
+										<Input
+											type="username"
+											placeholder="Нэвтрэх нэр"
+											{...field}
+										/>
+									</FormControl>
+									<FormMessage />
+								</FormItem>
+							)}
+						/>
+						<FormField
+							// disabled={loading}
+							control={form.control}
+							name="password"
+							render={({ field }) => (
+								<FormItem>
+									<FormControl>
+										<Input
+											type={
+												showPassword
+													? "text"
+													: "password"
+											}
+											placeholder="Нууц үг"
+											{...field}
+										/>
+									</FormControl>
+									<FormMessage />
+									<div
+										className="absolute top-[45%] right-6"
+										onClick={() =>
+											setShowPassword((prev) => !prev)
+										}>
+										{showPassword ? (
+											<EyeOff className="h-5 w-5" />
+										) : (
+											<Eye className="h-5 w-5" />
+										)}
+									</div>
+								</FormItem>
+							)}
+						/>
+						{submitError && (
+							<FormMessage>{submitError}</FormMessage>
+						)}
+						<m.div whileTap={{ scale: 0.85 }}>
+							<div className="">
+								<Button
+									type="submit"
+									className="w-full p-6 bg-qpay-secondary dark:text-white "
+									size="lg"
+									disabled={loading}>
+									{loading && (
+										<Loader2 className="mr-2 h-4 w-4 animate-spin" />
+									)}
+									{!loading ? "Нэвтрэх" : "Нэвтэрч байна."}
+								</Button>
+							</div>
+						</m.div>
+						<div>
+							<span
+								className="text-qpay-secondary float-right hover:underline cursor-pointer dark:text-white"
+								onClick={() =>
+									setOpenPasswordRecoverModal(true)
+								}>
+								Нууц үг сэргээх
+							</span>
+						</div>
+						<>
+							<span className="text-center text-sm text-[#d9d9da]">
+								v 0.3
+							</span>
+						</>
+					</form>
+				</Form>
+				<DynamicRecoverPasswordModal
+					open={openPasswordRecoverModal}
+					close={setOpenPasswordRecoverModal}
+					recoveryUserName={recoveryUserName}
+					setRecoveryUserName={setRecoveryUserName}
+					callback={onRecoverPass}
+				/>
 			</Card>
-		</motion.div>
+		</div>
 	);
 };

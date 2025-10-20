@@ -8,7 +8,6 @@ import { useIsFetching } from "@tanstack/react-query";
 
 const HomePageLayout = ({ children }: { children: React.ReactNode }) => {
 	const isFetching = useIsFetching()
-	console.log("isFetching", isFetching)
 	// if (isFetching) return <Loading />
 
 	return (

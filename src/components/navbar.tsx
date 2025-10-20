@@ -7,7 +7,6 @@ import { Button } from "./ui/button";
 import { SidebarInset, SidebarTrigger } from "./ui/sidebar";
 
 export const Navbar = ({ children }: { children: React.ReactNode }) => {
-	// const { loading } = useAxios();
 	const { push, replace } = useRouter();
 	const logout = useAuthStore((s) => s.logout);
 
@@ -24,28 +23,25 @@ export const Navbar = ({ children }: { children: React.ReactNode }) => {
 					<div className="flex gap-2 items-center">
 						<Button
 							variant="outline"
-							// disabled={loading}
 							onClick={() => push("/help")}>
 							<BadgeInfo className="h-4 w-4 mr-2" />
-							<span className="md:hidden lg:block xs:sm:text-[10px] sm:text-[10px] md:text-[10px] lg:text-sm xl:text-base">
+							<span className="md:hidden lg:block xs:sm:text-[10px] sm:text-[10px] md:text-[12px] lg:text-sm xl:text-base">
 								Тусламж
 							</span>
 						</Button>
 						<Button
 							variant="outline"
-							// disabled={loading}
 							onClick={() => push("/profile")}>
 							<UserRoundCog className="h-4 w-4 mr-2" />
-							<span className="md:hidden lg:block xs:sm:text-[10px] sm:text-[10px] md:text-[10px] lg:text-sm xl:text-base">
+							<span className="md:hidden lg:block xs:sm:text-[10px] sm:text-[10px] md:text-[12px] lg:text-sm xl:text-base">
 								Профайл
 							</span>
 						</Button>
 						<Button
 							variant="outline"
-							// disabled={loading}
 							onClick={handleLogout}>
 							<LogOut className="h-4 w-4 mr-2" />
-							<span className="md:hidden lg:block xs:sm:text-[10px] sm:text-[10px] md:text-[10px] lg:text-sm xl:text-base">
+							<span className="md:hidden lg:block xs:sm:text-[10px] sm:text-[10px] md:text-[12px] lg:text-sm xl:text-base">
 								Гарах
 							</span>
 						</Button>
