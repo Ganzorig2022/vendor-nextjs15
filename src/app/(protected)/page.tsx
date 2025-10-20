@@ -8,13 +8,13 @@ import { MerchantCount } from "@/modules/dashboard/types/types";
 import dynamic from "next/dynamic";
 
 const DynamicApexBarChart = dynamic(
-  () => import('@/modules/dashboard/components/barChart'),
-  { ssr: false },
-)
+	() => import("@/modules/dashboard/components/barChart"),
+	{ ssr: false }
+);
 const DynamicApexAreChart = dynamic(
-  () => import('@/modules/dashboard/components/merchantAreaChart'),
-  { ssr: false },
-)
+	() => import("@/modules/dashboard/components/merchantAreaChart"),
+	{ ssr: false }
+);
 
 const HomePage = () => {
 	const { data, isLoading } = useDashboardQuery();

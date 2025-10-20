@@ -41,6 +41,50 @@
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
+  /* CUSTOM VARIABLES. According to latest v4 docs. */
+  --color-qpay-primary: #202754;
+  --color-qpay-secondary: #0e29a2;
+  --color-text-title: #74788d;
+  --color-text-main: #495057;
+  --color-merchant: #ff4d4f;
+  --color-invoice: #0088fe;
+  --color-sms: #ff8042;
+  --color-menu-hover: #8c9bc036;
+  --color-body-background: #f8f9fa;
+  --color-success: #00c9a7;
+  --color-purchase: #0958d9;
+  --color-transfer: #08979c;
+  --color-payment: #d46b08;
+  --color-government: #531dab;
+  --color-info: #009efa;
+  --color-warning: #f1b44c;
+    /* 🔘 BORDER RADIUS */
+  --radius-lg: var(--radius);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) - 4px);
+
+  /* 🔤 FONT SIZE (Tailwind format: font-size / line-height) */
+  --text-xxs: 10px / 12px;
+  --text-xs: 12px / 16px;
+  --text-sm: 14px / 20px;
+  --text-base: 16px / 24px;
+  --text-lg: 20px / 28px;
+  --text-xl: 24px / 32px;
+
+  /* ⚙️ FLEX */
+  --flex-2: 1 1 50%;
+
+  /* 🌫️ SHADOWS */
+  --shadow-cardShadow: 0px 5px 10px -4px rgba(0,0,0,0.1);
+  --shadow-cardShadow1: rgba(0, 0, 0, 0.12) 0px 1px 3px,
+                        rgba(0, 0, 0, 0.24) 0px 1px 2px;
+  --shadow-modalShadow: rgba(0, 0, 0, 0.25) 0px 14px 28px,
+                        rgba(0, 0, 0, 0.22) 0px 10px 10px;
+
+  /* 🌀 ANIMATIONS */
+  --animate-accordion-down: accordion-down 0.2s ease-out;
+  --animate-accordion-up: accordion-up 0.2s ease-out;
+  --animate-spin-once: spin-once 1s ease-in-out;
 }
 
 :root {
