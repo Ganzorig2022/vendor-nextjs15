@@ -2,7 +2,6 @@
 
 import { Card } from "@/components/ui/card";
 import { miniChartData } from "@/core/constants/values";
-import { useAuthStore } from "@/modules/auth/store/auth.store";
 import { MiniStats } from "@/modules/dashboard/components";
 import { useDashboardQuery } from "@/modules/dashboard/hooks/useDashboardQuery";
 import { MerchantCount } from "@/modules/dashboard/types/types";
@@ -18,7 +17,6 @@ const DynamicApexAreChart = dynamic(
 )
 
 const HomePage = () => {
-	const { user } = useAuthStore((s) => s);
 	const { data, isLoading } = useDashboardQuery();
 	if (isLoading) return <p>Loading...</p>;
 
