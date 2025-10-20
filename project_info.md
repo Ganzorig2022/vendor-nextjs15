@@ -56,3 +56,50 @@ For linting, formatting, and code quality
 For git and version control
 
 - Commitlint for commit message linting
+
+
+# Next.js Enterprise Architecture Diagram
+
+📦 src/
+│
+├── app/                         # [Presentation Layer]
+│   ├── (public)/                # Unauthenticated routes
+│   ├── (protected)/             # Authenticated routes
+│   └── layout.tsx               # Shared layout/UI shell
+│
+├── components/                  # Shared UI components (Shadcn/Tailwind)
+│
+├── modules/                     # [Domain Layer] ← Domain-Driven Design boundary
+│   ├── user/
+│   │   ├── api/                 # Infrastructure interface for data fetching
+│   │   │   ├── user.service.ts  # Axios calls → backend REST/GraphQL
+│   │   │   └── user.queries.ts  # React Query hooks (useUserQuery)
+│   │   ├── store/               # Local state via Zustand
+│   │   ├── schema/              # Zod schemas (data contracts)
+│   │   ├── types/               # TS interfaces/models
+│   │   ├── components/          # Feature-specific UI
+│   │   └── index.ts             # Public API of this domain
+│   │
+│   ├── auth/
+│   │   ├── api/
+│   │   ├── store/
+│   │   └── schema/
+│   │
+│   └── ...
+│
+├── core/                        # [Infrastructure Layer]
+│   ├── api/
+│   │   ├── axios.client.ts      # Configured Axios instance
+│   │   └── queryClient.ts       # React Query client setup
+│   ├── hooks/                   # Reusable logic across domains
+│   ├── providers/               # React Context providers (Query, Theme)
+│   ├── utils/                   # Generic utilities
+│   └── constants/               # App-wide constants
+│
+├── lib/                         # Cross-cutting infra (auth, db, middlewares)
+│
+├── styles/                      # Tailwind global styles
+│
+├── config/                      # ESLint, Prettier, Commitlint configs
+│
+└── types/                       # Global types (e.g., Env, Common)
