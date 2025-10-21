@@ -13,16 +13,19 @@ import { useMerchantQuery } from "@/modules/merchant/api/merchant.query";
 import { MerchantListTable } from "@/modules/merchant/components/table";
 import { columns } from "@/modules/merchant/components/table-column";
 import { m } from "framer-motion";
-import { CirclePlus, Download, Loader2, SearchX } from "lucide-react";
-import { usePathname } from "next/navigation";
+import {
+	CirclePlus,
+	Download,
+	ListRestart,
+	Loader2,
+	SearchX,
+} from "lucide-react";
 
 const MerchantPage = () => {
 	const { onFilterClear, onFilter, query } = useSearchFilter();
 	const { generalData } = useMainStore((s) => s);
 	const { mccs } = generalData;
 	const { data, isLoading } = useMerchantQuery(query);
-	const pathname = usePathname();
-	const isMainPage = pathname === "/merchant";
 
 	if (isLoading)
 		return (
@@ -105,11 +108,19 @@ const MerchantPage = () => {
 						<Button
 							variant="clear_search"
 							size="sm"
-							onClick={onFilterClear}>
+							onClick={() => onFilterClear()}>
 							<SearchX className="h-4 w-4 mr-2" />
 							Цэвэрлэх
 						</Button>
 					</m.div>
+					<Button
+						variant="success"
+						size="sm"
+						onClick={() => onFilterClear(true)}
+						disabled={isLoading}>
+						<ListRestart className="h-4 w-4" />
+						Шинэчлэх
+					</Button>
 				</div>
 				<div className="mt-5">
 					{data && (
