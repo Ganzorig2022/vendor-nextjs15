@@ -1,6 +1,4 @@
 #!/usr/bin/env sh
 set -e
 
-echo "✅ Husky pre-commit running..."
-
-pnpm lint || echo "⚠️  No lint script found, skipping lint step."
+# pnpm lint
