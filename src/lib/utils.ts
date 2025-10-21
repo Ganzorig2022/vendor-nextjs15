@@ -1,4 +1,4 @@
-import { BusinessDirection, CardTransactionType, MCC } from '@/modules/general/types/type'
+import { BusinessDirection, CardTransactionType, IMCC } from '@/modules/general/types/type'
 import { clsx, type ClassValue } from 'clsx'
 import { twMerge } from 'tailwind-merge'
 
@@ -73,7 +73,7 @@ export const getMCC = (value: string) => {
     }
   }
 
-  const mccName = mccs?.find((mcc: MCC) => mcc.mcc_code === value)?.name_mon
+  const mccName = mccs?.find((mcc: IMCC) => mcc.mcc_code === value)?.name_mon
   return mccName
 }
 

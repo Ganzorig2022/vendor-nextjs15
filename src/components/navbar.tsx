@@ -19,7 +19,7 @@ export const Navbar = ({ children }: { children: React.ReactNode }) => {
 	return (
 		<SidebarInset>
 			<header className="flex h-16 shrink-0 items-center gap-2 border-b w-full">
-				<div className="flex items-center gap-2 px-3 justify-between w-full">
+				<div className="flex items-center gap-2 px-4 justify-between w-full">
 					<SidebarTrigger />
 					<div className="flex gap-2 items-center">
 						<Button

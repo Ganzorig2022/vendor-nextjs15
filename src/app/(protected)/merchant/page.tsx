@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import { ComboBoxMCC } from "@/components/shared/combobox-mcc";
 import { CustomSelect } from "@/components/shared/custom-select";
@@ -6,25 +6,54 @@ import { DatePicker } from "@/components/shared/date-picker";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import { Spinner } from "@/components/ui/spinner";
 import { useSearchFilter } from "@/hooks/use-search-filter";
 import useMainStore from "@/modules/general/store/use-main-store";
 import { useMerchantQuery } from "@/modules/merchant/api/merchant.query";
 import { MerchantListTable } from "@/modules/merchant/components/table";
 import { columns } from "@/modules/merchant/components/table-column";
-import { m } from 'framer-motion';
-import { SearchX } from "lucide-react";
+import { m } from "framer-motion";
+import { CirclePlus, Download, Loader2, SearchX } from "lucide-react";
+import { usePathname } from "next/navigation";
 
-type Props = {};
-
-const MerchantPage = (props: Props) => {
+const MerchantPage = () => {
 	const { onFilterClear, onFilter, query } = useSearchFilter();
-  const { generalData } = useMainStore((s) => s)
-  const { mccs } = generalData
-  const { data, isLoading } = useMerchantQuery(query);
+	const { generalData } = useMainStore((s) => s);
+	const { mccs } = generalData;
+	const { data, isLoading } = useMerchantQuery(query);
+	const pathname = usePathname();
+	const isMainPage = pathname === "/merchant";
+
+	if (isLoading)
+		return (
+			<div className="flex h-screen w-auto items-center justify-center">
+				<Spinner className="size-8 text-qpay-primary" />
+			</div>
+		);
 
 	return (
 		<main>
 			<Card className="px-4">
+				<div className="flex gap-2 ml-auto">
+					<Button
+						variant="success"
+						size="sm"
+						disabled={isLoading}>
+						<CirclePlus className="h-4 w-4" />
+						Мерчант бүртгэх
+					</Button>
+					<Button
+						variant="info"
+						size="sm"
+						disabled={isLoading}>
+						{isLoading ? (
+							<Loader2 className="h-4 w-4 animate-spin" />
+						) : (
+							<Download className="h-4 w-4" />
+						)}
+						{!isLoading ? "Excel татах" : "Excel татаж байна."}
+					</Button>
+				</div>
 				<div className="flex gap-2 items-center">
 					<div>
 						<Input
@@ -34,6 +63,7 @@ const MerchantPage = (props: Props) => {
 							}
 							placeholder="Хайх"
 							value={query?.search || ""}
+							className=" text-[13px]"
 						/>
 					</div>
 					<div>

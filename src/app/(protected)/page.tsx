@@ -3,10 +3,13 @@
 import { Card } from "@/components/ui/card";
 import { Spinner } from "@/components/ui/spinner";
 import { miniChartData } from "@/core/constants/values";
+import { useDashboardQuery } from "@/modules/dashboard/api/dashboard.query";
 import { MiniStats } from "@/modules/dashboard/components";
-import { useDashboardQuery } from "@/modules/dashboard/hooks/useDashboardQuery";
 import { MerchantCount } from "@/modules/dashboard/types/types";
+import { useGeneralQuery } from "@/modules/general/api/general.query";
+import useMainStore from "@/modules/general/store/use-main-store";
 import dynamic from "next/dynamic";
+import { useEffect } from "react";
 
 const DynamicApexBarChart = dynamic(
 	() => import("@/modules/dashboard/components/barChart"),
@@ -19,6 +22,14 @@ const DynamicApexAreChart = dynamic(
 
 const HomePage = () => {
 	const { data, isLoading } = useDashboardQuery();
+	const { data: general } = useGeneralQuery();
+	const { updateGeneralData } = useMainStore((s) => s);
+
+	useEffect(() => {
+		if (general) updateGeneralData(general);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [general]);
+
 	if (isLoading)
 		return (
 			<div className="flex h-screen w-auto items-center justify-center">
@@ -27,7 +38,7 @@ const HomePage = () => {
 		);
 
 	return (
-		<div className="">
+		<div className="m-5">
 			{data && (
 				<>
 					<div className="flex justify-center gap-4">
