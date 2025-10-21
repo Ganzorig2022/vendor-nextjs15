@@ -1,8 +1,17 @@
 "use client";
 import { animate, m, useMotionValue, useTransform } from "framer-motion";
-import Image from "next/image";
 import { useEffect, useState } from "react";
 
+import { Badge } from "@/components/ui/badge";
+import {
+	Card,
+	CardAction,
+	CardDescription,
+	CardFooter,
+	CardHeader,
+	CardTitle,
+} from "@/components/ui/card";
+import { TrendingDown, TrendingUp } from "lucide-react";
 type Props = {
 	text: string;
 	data: number;
@@ -11,14 +20,10 @@ type Props = {
 const MiniStats = ({ text, data, icon }: Props) => {
 	const count = useMotionValue(0);
 	const rounded = useTransform(count, Math.round);
-	// store a renderable number from the MotionValue
 	const [display, setDisplay] = useState<number>(rounded.get());
 
 	useEffect(() => {
-		// subscribe to changes on the transformed MotionValue
 		const unsubscribe = rounded.on("change", (v) => setDisplay(v));
-
-		// animate the base motion value
 		const animation = animate(count, data, { duration: 2 });
 
 		return () => {
@@ -28,8 +33,35 @@ const MiniStats = ({ text, data, icon }: Props) => {
 	}, [data, count, rounded]);
 
 	return (
-		<>
-			<div className="flex justify-between items-center mx-4">
+		<Card className="@container/card">
+			<CardHeader>
+				<CardDescription>{text}</CardDescription>
+				<CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl text-text-main">
+					{display}
+				</CardTitle>
+				<CardAction>
+					<Badge variant="outline">
+						<TrendingUp />
+						+12.5%
+					</Badge>
+				</CardAction>
+			</CardHeader>
+			{/* <CardFooter className="flex-col items-start gap-1.5 text-sm">
+				<div className="line-clamp-1 flex gap-2 font-medium">
+					Trending up this month <TrendingUp className="size-4" />
+				</div>
+				<div className="text-muted-foreground">
+					Visitors for the last 6 months
+				</div>
+			</CardFooter> */}
+		</Card>
+	);
+};
+
+export default MiniStats;
+
+{
+	/* <div className="flex justify-between items-center mx-4">
 				<div className="flex flex-col">
 					<div className="text-text-title font-extrabold">{text}</div>
 					<m.h1 className="text-text-main font-bold text-3xl dark:text-gray-400">
@@ -48,9 +80,5 @@ const MiniStats = ({ text, data, icon }: Props) => {
 						/>
 					</div>
 				</div>
-			</div>
-		</>
-	);
-};
-
-export default MiniStats;
+			</div> */
+}

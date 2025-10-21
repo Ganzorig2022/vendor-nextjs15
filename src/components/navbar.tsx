@@ -8,7 +8,7 @@ import { SidebarTrigger } from "./ui/sidebar";
 
 export const Navbar = () => {
 	const { push, replace } = useRouter();
-	const logout = useAuthStore((s) => s.logout);
+	const { logout, user } = useAuthStore((s) => s);
 
 	const handleLogout = async () => {
 		await logout();
@@ -16,17 +16,14 @@ export const Navbar = () => {
 	};
 
 	return (
-		<header
-			className="flex h-(--header-height) shrink-0 items-center gap-2 border-b transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-(--header-height)">
-			<div
-				className="flex w-full items-center gap-1 px-4 lg:gap-2 lg:px-6"
-			>
+		<header className="flex h-(--header-height) shrink-0 items-center gap-2 border-b transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-(--header-height)">
+			<div className="flex w-full items-center gap-1 px-4 lg:gap-2 lg:px-6">
 				<SidebarTrigger className="-ml-1" />
-				<h1 className="text-base font-medium">Documents</h1>
+				<h1 className="text-base font-medium">
+					{user?.first_name} {user?.last_name}
+				</h1>
 
-				<div
-					className="ml-auto flex items-center gap-2"
-				>
+				<div className="ml-auto flex items-center gap-2">
 					<Button
 						variant="outline"
 						onClick={() => push("/help")}>

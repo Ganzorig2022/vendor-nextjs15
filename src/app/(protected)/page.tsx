@@ -1,10 +1,10 @@
 "use client";
 
-import { Card } from "@/components/ui/card";
 import { Spinner } from "@/components/ui/spinner";
 import { miniChartData } from "@/core/constants/values";
 import { useDashboardQuery } from "@/modules/dashboard/api/dashboard.query";
 import { MiniStats } from "@/modules/dashboard/components";
+import { ChartAreaInteractive } from "@/modules/dashboard/components/chart-interactive";
 import { MerchantCount } from "@/modules/dashboard/types/types";
 import { useGeneralQuery } from "@/modules/general/api/general.query";
 import useMainStore from "@/modules/general/store/use-main-store";
@@ -38,36 +38,35 @@ const HomePage = () => {
 		);
 
 	return (
-		<div className="m-5">
+		<div className="m-5 ">
 			{data && (
-				<>
-					<div className="flex justify-center gap-4">
-						{miniChartData.map((mini, i) => {
-							const count =
-								data?.merchant[
-									mini.type as keyof MerchantCount
-								];
-							return (
-								<Card
-									className="flex-1"
-									key={i}>
+				<div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6">
+					<div>
+						<div className="*:data-[slot=card]:from-primary/5 *:data-[slot=card]:to-card dark:*:data-[slot=card]:bg-card grid grid-cols-1 gap-4 px-4 *:data-[slot=card]:bg-gradient-to-t *:data-[slot=card]:shadow-xs lg:px-6 @xl/main:grid-cols-2 @5xl/main:grid-cols-3">
+							{miniChartData.map((mini, i) => {
+								const count =
+									data?.merchant[
+										mini.type as keyof MerchantCount
+									];
+								return (
 									<MiniStats
+										key={i}
 										data={count ? +count : 0}
 										text={mini.text}
 										icon={mini.icon}
 									/>
-								</Card>
-							);
-						})}
+								);
+							})}
+						</div>
 					</div>
-					<div className="flex gap-4 w-full justify-center mt-4">
-						<div className="flex-2">
+					<div className="flex gap-4 py-4 md:gap-6 md:py-6">
+						<div className="flex-1">
 							<DynamicApexBarChart
 								series={data?.p2p_transactions}
 								titleText="Дансны"
 							/>
 						</div>
-						<div className="flex-2">
+						<div className="flex-1">
 							<DynamicApexBarChart
 								series={data?.card_transactions}
 								titleText="Картын"
@@ -77,7 +76,10 @@ const HomePage = () => {
 					<div className="mt-4">
 						<DynamicApexAreChart data={data?.dashboard} />
 					</div>
-				</>
+					<div>
+						<ChartAreaInteractive />
+					</div>
+				</div>
 			)}
 		</div>
 	);

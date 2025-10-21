@@ -57,7 +57,7 @@ const MerchantPage = () => {
 						{!isLoading ? "Excel татах" : "Excel татаж байна."}
 					</Button>
 				</div>
-				<div className="flex gap-2 items-center">
+				<div className="flex gap-2 items-center flex-wrap">
 					<div>
 						<Input
 							type="text"
@@ -66,7 +66,7 @@ const MerchantPage = () => {
 							}
 							placeholder="Хайх"
 							value={query?.search || ""}
-							className=" text-[13px]"
+							className="text-[13px]"
 						/>
 					</div>
 					<div>

@@ -1,19 +1,21 @@
 "use client";
 
+import { IMerchantItem } from "@/modules/merchant/types/types";
 import { create } from "zustand";
+import { IUser } from "../types/type";
 
 type AuthState = {
 	token: string | null;
 	clientName: string | null;
 	processCode: string | null;
-	user: any | null;
-	merchant: any | null;
+	user: IUser | null;
+	merchant: IMerchantItem | null;
 	setAuth: (data: {
 		clientName: string;
 		processCode: string;
 		access_token: string;
-		user: any;
-		merchant: any;
+		user: IUser;
+		merchant: IMerchantItem;
 	}) => void;
 	logout: () => Promise<void>;
 };
