@@ -1,6 +1,7 @@
 "use client";
 
 import { Card } from "@/components/ui/card";
+import { Spinner } from "@/components/ui/spinner";
 import { miniChartData } from "@/core/constants/values";
 import { MiniStats } from "@/modules/dashboard/components";
 import { useDashboardQuery } from "@/modules/dashboard/hooks/useDashboardQuery";
@@ -18,7 +19,12 @@ const DynamicApexAreChart = dynamic(
 
 const HomePage = () => {
 	const { data, isLoading } = useDashboardQuery();
-	if (isLoading) return <p>Loading...</p>;
+	if (isLoading)
+		return (
+			<div className="flex h-screen w-auto items-center justify-center">
+				<Spinner className="size-8 text-qpay-primary" />
+			</div>
+		);
 
 	return (
 		<div className="">
@@ -62,7 +68,6 @@ const HomePage = () => {
 					</div>
 				</>
 			)}
-			{/* <FadeLoader loading={isFetching} /> */}
 		</div>
 	);
 };

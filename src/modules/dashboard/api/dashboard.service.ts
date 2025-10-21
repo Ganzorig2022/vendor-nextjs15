@@ -1,6 +1,6 @@
-import { apiClient } from "@/core/api/api.client";
+import { axiosClientWithAuh } from "@/core/api/api.client";
 
 export async function getDashboardData() {
-const { data } = await apiClient.get("/dashboard");
+const { data } = await axiosClientWithAuh.get("/dashboard");
   return data;
 }

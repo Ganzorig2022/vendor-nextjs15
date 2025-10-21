@@ -8,6 +8,6 @@ export const loginRequest = async (payload: z.infer<typeof loginSchema>) => {
 };
 
 export const recoverPassword = async (payload: { username: string }) => {
-	const { data } = await axiosClient.post("/user/recover_password", payload);
-	return data; // expects backend to return { token, user }
+	const { data } = await axiosClient.post("/auth/reset", payload);
+	return data;
 };

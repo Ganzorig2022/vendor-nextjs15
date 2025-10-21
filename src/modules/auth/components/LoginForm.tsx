@@ -25,16 +25,20 @@ import {
 	useRecoverPasswordMutation,
 } from "../api/auth.mutations";
 import { loginSchema } from "../schema/login.schema";
-const DynamicRecoverPasswordModal = dynamic(
+
+const RecoverPasswordModal = dynamic(
 	() => import("@/modules/auth/components/recover-password-modal"),
 	{ ssr: false }
 );
 
+type loginFormType = z.infer<typeof loginSchema>;
+
 export const LoginForm = () => {
-	const form = useForm<z.infer<typeof loginSchema>>({
+	const form = useForm<loginFormType>({
 		resolver: zodResolver(loginSchema),
 		defaultValues: { username: "", password: "" },
 	});
+
 	const { theme } = useTheme();
 	const loginMutation = useAuthMutations();
 	const recoverPasswordMutation = useRecoverPasswordMutation({
@@ -43,14 +47,15 @@ export const LoginForm = () => {
 			setOpenPasswordRecoverModal(false);
 		},
 	});
-	const loading = loginMutation.isPending || recoverPasswordMutation.isPending;
+	const loading =
+		loginMutation.isPending || recoverPasswordMutation.isPending;
 	const [submitError, setSubmitError] = useState("");
 	const [showPassword, setShowPassword] = useState(false);
+	const [recoveryUserName, setRecoveryUserName] = useState("");
 	const [openPasswordRecoverModal, setOpenPasswordRecoverModal] =
 		useState(false);
-	const [recoveryUserName, setRecoveryUserName] = useState("");
 
-	const onSubmit = (values: z.infer<typeof loginSchema>) => {
+	const onSubmit = (values: loginFormType) => {
 		loginMutation.mutate(values);
 	};
 	const onRecoverPass = () => {
@@ -68,8 +73,14 @@ export const LoginForm = () => {
 						onChange={() => {
 							if (submitError) setSubmitError("");
 						}}
+						onKeyDown={(e) => {
+							if (e.key === "Enter") {
+								e.preventDefault(); // prevent form flicker
+								form.handleSubmit(onSubmit)();
+							}
+						}}
 						onSubmit={form.handleSubmit(onSubmit)}
-						className="w-full sm:justify-center sm:w-[400px] flex flex-col gap-6 relative p-4">
+						className="w-full sm:justify-center sm:w-[400px] flex flex-col gap-6 relative px-4">
 						<Image
 							src={
 								theme === "dark"
@@ -83,7 +94,6 @@ export const LoginForm = () => {
 							priority
 						/>
 						<FormField
-							// disabled={loading}
 							control={form.control}
 							name="username"
 							render={({ field }) => (
@@ -100,7 +110,6 @@ export const LoginForm = () => {
 							)}
 						/>
 						<FormField
-							// disabled={loading}
 							control={form.control}
 							name="password"
 							render={({ field }) => (
@@ -144,16 +153,17 @@ export const LoginForm = () => {
 									{loading && (
 										<Loader2 className="mr-2 h-4 w-4 animate-spin" />
 									)}
-									{!loading ? "Нэвтрэх" : "Нэвтэрч байна."}
+									{!loading ? "Нэвтрэх" : "Нэвтэрч байна..."}
 								</Button>
 							</div>
 						</m.div>
 						<div>
 							<span
-								className="text-qpay-secondary float-right hover:underline cursor-pointer dark:text-white"
-								onClick={() =>
-									setOpenPasswordRecoverModal(true)
-								}>
+								className="text-qpay-secondary float-right hover:underline cursor-pointer dark:text-white text-[12px]"
+								onClick={() => {
+									if (loading) return;
+									setOpenPasswordRecoverModal(true);
+								}}>
 								Нууц үг сэргээх
 							</span>
 						</div>
@@ -164,7 +174,7 @@ export const LoginForm = () => {
 						</>
 					</form>
 				</Form>
-				<DynamicRecoverPasswordModal
+				<RecoverPasswordModal
 					open={openPasswordRecoverModal}
 					close={setOpenPasswordRecoverModal}
 					recoveryUserName={recoveryUserName}
