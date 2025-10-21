@@ -1,18 +1,27 @@
 import { AppSidebar } from "@/components/app-sidebar";
 import { Navbar } from "@/components/navbar";
-import { SidebarProvider } from "@/components/ui/sidebar";
+import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 
 const HomePageLayout = ({ children }: { children: React.ReactNode }) => {
 	return (
-		<SidebarProvider>
-			<AppSidebar />
-			<Navbar>
-				<div className="flex w-full h-full overflow-hidden">
-					<main className="flex-1 h-full overflow-auto">
-						<div className="w-full overflow-x-auto">{children}</div>
-					</main>
+		<SidebarProvider
+			style={
+				{
+					"--sidebar-width": "calc(var(--spacing) * 72)",
+					"--header-height": "calc(var(--spacing) * 12)",
+				} as React.CSSProperties
+			}>
+			<AppSidebar variant="inset" />
+			<SidebarInset>
+				<Navbar />
+				<div className="flex flex-1 flex-col">
+					<div className="@container/main flex flex-1 flex-col gap-2">
+						<div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6">
+							{children}
+						</div>
+					</div>
 				</div>
-			</Navbar>
+			</SidebarInset>
 		</SidebarProvider>
 	);
 };

@@ -208,7 +208,7 @@ const RecoverPasswordModal = ({ open, close }: RecoverPasswordModalProps) => {
 					/>
 				</div>
 				<DialogFooter>
-					<DialogClose>
+					<DialogClose asChild>
 						<Button
 							type="button"
 							size="sm"

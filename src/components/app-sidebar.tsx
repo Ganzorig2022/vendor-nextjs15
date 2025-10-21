@@ -15,9 +15,9 @@ import {
 import Image from "next/image";
 import { MENU_ITEMS } from "@/core/constants/values";
 
-export function AppSidebar() {
+export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 	return (
-		<Sidebar>
+		<Sidebar collapsible="offcanvas" {...props}>
 			<SidebarContent>
 				<SidebarGroup>
 					<Image
@@ -29,20 +29,8 @@ export function AppSidebar() {
 						priority
 						className="mx-auto my-3"
 					/>
-					{/* <SidebarGroupLabel>
-          </SidebarGroupLabel> */}
 					<SidebarGroupContent>
 						<SidebarMenu>
-							{/* {items.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild>
-                    <a href={item.url}>
-                      <item.icon />
-                      <span className="text-base">{item.title}</span>
-                    </a>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))} */}
 							{MENU_ITEMS.map((item) => (
 								<SidebarMenuItem key={item.title}>
 									<SidebarMenuButton asChild>

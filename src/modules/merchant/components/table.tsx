@@ -45,7 +45,7 @@ export function MerchantListTable<TData, TValue>({
   })
 
   return (
-    <div>
+    <div className='overflow-hidden'>
       <div className="rounded-md border">
         <Table>
           <TableHeader>

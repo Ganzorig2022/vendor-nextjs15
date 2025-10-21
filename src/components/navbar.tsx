@@ -3,11 +3,10 @@ import { ROUTES } from "@/core/constants/routes";
 import { useAuthStore } from "@/modules/auth/store/auth.store";
 import { BadgeInfo, LogOut, UserRoundCog } from "lucide-react";
 import { useRouter } from "next/navigation";
-import React from "react";
 import { Button } from "./ui/button";
-import { SidebarInset, SidebarTrigger } from "./ui/sidebar";
+import { SidebarTrigger } from "./ui/sidebar";
 
-export const Navbar = ({ children }: { children: React.ReactNode }) => {
+export const Navbar = () => {
 	const { push, replace } = useRouter();
 	const logout = useAuthStore((s) => s.logout);
 
@@ -17,43 +16,43 @@ export const Navbar = ({ children }: { children: React.ReactNode }) => {
 	};
 
 	return (
-		<SidebarInset>
-			<header className="flex h-16 shrink-0 items-center gap-2 border-b w-full">
-				<div className="flex items-center gap-2 px-4 justify-between w-full">
-					<SidebarTrigger />
-					<div className="flex gap-2 items-center">
-						<Button
-							variant="outline"
-							onClick={() => push("/help")}>
-							<BadgeInfo className="h-4 w-4 mr-2" />
-							<span className="md:hidden lg:block xs:sm:text-[10px] sm:text-[10px] md:text-[12px] lg:text-xs xl:text-base">
-								Тусламж
-							</span>
-						</Button>
-						<Button
-							variant="outline"
-							onClick={() => push("/profile")}>
-							<UserRoundCog className="h-4 w-4 mr-2" />
-							<span className="md:hidden lg:block xs:sm:text-[10px] sm:text-[10px] md:text-[12px] lg:text-xs xl:text-base">
-								Профайл
-							</span>
-						</Button>
-						<Button
-							variant="outline"
-							onClick={handleLogout}>
-							<LogOut className="h-4 w-4 mr-2" />
-							<span className="md:hidden lg:block xs:sm:text-[10px] sm:text-[10px] md:text-[12px] lg:text-xs xl:text-base">
-								Гарах
-							</span>
-						</Button>
-					</div>
-				</div>
-			</header>
-			<div className="flex flex-1 flex-col gap-4 p-4">
-				<div className="min-h-screen flex-1 rounded-xl bg-muted/50 md:min-h-min">
-					{children}
+		<header
+			className="flex h-(--header-height) shrink-0 items-center gap-2 border-b transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-(--header-height)">
+			<div
+				className="flex w-full items-center gap-1 px-4 lg:gap-2 lg:px-6"
+			>
+				<SidebarTrigger className="-ml-1" />
+				<h1 className="text-base font-medium">Documents</h1>
+
+				<div
+					className="ml-auto flex items-center gap-2"
+				>
+					<Button
+						variant="outline"
+						onClick={() => push("/help")}>
+						<BadgeInfo className="h-4 w-4 mr-2" />
+						<span className="md:hidden lg:block xs:sm:text-[10px] sm:text-[10px] md:text-[12px] lg:text-xs xl:text-base">
+							Тусламж
+						</span>
+					</Button>
+					<Button
+						variant="outline"
+						onClick={() => push("/profile")}>
+						<UserRoundCog className="h-4 w-4 mr-2" />
+						<span className="md:hidden lg:block xs:sm:text-[10px] sm:text-[10px] md:text-[12px] lg:text-xs xl:text-base">
+							Профайл
+						</span>
+					</Button>
+					<Button
+						variant="outline"
+						onClick={handleLogout}>
+						<LogOut className="h-4 w-4 mr-2" />
+						<span className="md:hidden lg:block xs:sm:text-[10px] sm:text-[10px] md:text-[12px] lg:text-xs xl:text-base">
+							Гарах
+						</span>
+					</Button>
 				</div>
 			</div>
-		</SidebarInset>
+		</header>
 	);
 };

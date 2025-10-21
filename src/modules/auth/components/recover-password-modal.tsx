@@ -59,7 +59,7 @@ const RecoverPasswordModal = ({
 						}}
 					/>
 					<DialogFooter>
-						<DialogClose>
+						<DialogClose asChild>
 							<Button
 								type="button"
 								variant="clear_search">
