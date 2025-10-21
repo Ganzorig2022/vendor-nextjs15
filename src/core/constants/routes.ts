@@ -1,12 +1,36 @@
-export const AUTH_ROUTES = ["/login", "/register"];
-export const PROTECTED_ROUTES = ["/", "/dashboard", "/settings", "/profile"];
-export const EXCLUDED_PATHS = ["/_next", "/api", "/static", "/favicon.ico"];
+export const ROUTES = {
+	auth: {
+		login: "/login",
+	},
+	protected: {
+		home: "/",
+		merchant: "/merchant",
+		cardTransaction: "/card-transaction",
+		cardReport: "/card-report",
+		p2pTransaction: "/p2p-transaction",
+		p2pReport: "/p2p-report",
+		profile: "/profile",
+		help: "/help",
+	},
+	excluded: {
+		next: "/_next",
+		api: "/api",
+		static: "/static",
+		favicon: "/favicon.ico",
+	},
+} as const;
+
+export const AUTH_ROUTES = Object.values(ROUTES.auth);
+export const PROTECTED_ROUTES = Object.values(ROUTES.protected);
+export const EXCLUDED_PATHS = Object.values(ROUTES.excluded);
 
 export const isAuthRoute = (pathname: string) =>
-  AUTH_ROUTES.some((route) => pathname === route);
+	AUTH_ROUTES.some((route) => pathname === route);
 
 export const isProtectedRoute = (pathname: string) =>
-  PROTECTED_ROUTES.some((route) => pathname === route || pathname.startsWith(route + "/"));
+	PROTECTED_ROUTES.some(
+		(route) => pathname === route || pathname.startsWith(route + "/")
+	);
 
 export const isExcludedPath = (pathname: string) =>
-  EXCLUDED_PATHS.some((route) => pathname.startsWith(route));
+	EXCLUDED_PATHS.some((route) => pathname.startsWith(route));

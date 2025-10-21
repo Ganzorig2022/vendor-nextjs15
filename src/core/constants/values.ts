@@ -1,3 +1,6 @@
+import { BarChart2, Calendar, Inbox } from 'lucide-react'
+import { ROUTES } from './routes'
+
 export type MiniChartType = {
   type: string
   text: string
@@ -29,3 +32,51 @@ export const initialPageValues = {
 }
 
 export const DATE_FORMAT = 'YYYY-MM-DD HH:mm'
+
+// Menu items.
+export const MENU_ITEMS = [
+  {
+    title: 'Дашбоард',
+    url: ROUTES.protected.home,
+    icon: BarChart2,
+  },
+  {
+    title: 'Mерчант',
+    url: ROUTES.protected.merchant,
+    icon: Inbox,
+  },
+  {
+    title: 'Карт',
+    url: '#',
+    icon: Calendar,
+    items: [
+      {
+        title: 'Картын гүйлгээ',
+        url: ROUTES.protected.cardTransaction,
+        isActive: false,
+      },
+      {
+        title: 'Картын тайлан',
+        url: ROUTES.protected.cardReport,
+        isActive: false,
+      },
+    ],
+  },
+  {
+    title: 'Данс',
+    url: '#',
+    icon: Calendar,
+    items: [
+      {
+        title: 'Дансны гүйлгээ',
+        url: ROUTES.protected.p2pTransaction,
+        isActive: false,
+      },
+      {
+        title: 'Дансны тайлан',
+        url: ROUTES.protected.p2pReport,
+        isActive: false,
+      },
+    ],
+  },
+]

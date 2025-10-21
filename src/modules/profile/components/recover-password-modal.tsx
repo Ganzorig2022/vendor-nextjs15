@@ -13,6 +13,7 @@ import { Field, FieldError, FieldLabel } from "@/components/ui/field";
 import { Form } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Spinner } from "@/components/ui/spinner";
+import { ROUTES } from "@/core/constants/routes";
 import { useAuthStore } from "@/modules/auth/store/auth.store";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
@@ -65,7 +66,7 @@ const RecoverPasswordModal = ({ open, close }: RecoverPasswordModalProps) => {
 	const goToLogin = async () => {
 		close(false);
 		await logout();
-		replace("/login");
+		replace(ROUTES.auth.login);
 	};
 
 	const checkPassword = useCheckPasswordMutation({

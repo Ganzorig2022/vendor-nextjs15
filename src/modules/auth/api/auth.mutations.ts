@@ -1,13 +1,14 @@
 "use client";
 
+import { ROUTES } from "@/core/constants/routes";
 import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
-import { loginRequest, recoverPassword } from "./auth.service";
-import { useAuthStore } from "../store/auth.store";
 import { toast } from "sonner";
+import { useAuthStore } from "../store/auth.store";
+import { loginRequest, recoverPassword } from "./auth.service";
 
 export const useAuthMutations = () => {
-	const router = useRouter();
+	const { replace } = useRouter();
 	const { setAuth } = useAuthStore();
 
 	return useMutation({
@@ -32,7 +33,7 @@ export const useAuthMutations = () => {
 				credentials: "include",
 			});
 
-			router.replace("/");
+			replace(ROUTES.protected.home);
 		},
 	});
 };

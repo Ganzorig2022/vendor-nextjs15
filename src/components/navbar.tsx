@@ -1,4 +1,5 @@
 "use client";
+import { ROUTES } from "@/core/constants/routes";
 import { useAuthStore } from "@/modules/auth/store/auth.store";
 import { BadgeInfo, LogOut, UserRoundCog } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -12,7 +13,7 @@ export const Navbar = ({ children }: { children: React.ReactNode }) => {
 
 	const handleLogout = async () => {
 		await logout();
-		replace("/login");
+		replace(ROUTES.auth.login);
 	};
 
 	return (
