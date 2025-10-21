@@ -168,7 +168,7 @@ export const LoginForm = () => {
 							</span>
 						</div>
 						<>
-							<span className="text-center text-sm text-[#d9d9da]">
+							<span className="text-center text-xs text-[#d9d9da]">
 								v 0.3
 							</span>
 						</>

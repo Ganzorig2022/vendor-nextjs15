@@ -66,7 +66,7 @@
   /* 🔤 FONT SIZE (Tailwind format: font-size / line-height) */
   --text-xxs: 10px / 12px;
   --text-xs: 12px / 16px;
-  --text-sm: 14px / 20px;
+  --text-xs: 14px / 20px;
   --text-base: 16px / 24px;
   --text-lg: 20px / 28px;
   --text-xl: 24px / 32px;
@@ -162,5 +162,22 @@
   }
   body {
     @apply bg-background text-foreground;
+  }
+
+  table {
+    @apply text-[12px] leading-snug;
+  }
+
+  th,
+  td {
+    @apply text-[12px] py-2 px-3;
+  }
+
+  thead th {
+    @apply font-semibold text-[12.5px] tracking-wide text-muted-foreground;
+  }
+
+  tbody td {
+    @apply text-foreground;
   }
 }

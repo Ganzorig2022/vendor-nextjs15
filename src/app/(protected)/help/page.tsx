@@ -23,7 +23,7 @@ export default function Help() {
 						className="object-contain"
 					/>
 				</div>
-				<span className="mt-2 text-sm font-medium text-foreground group-hover:text-primary">
+				<span className="mt-2 text-xs font-medium text-foreground group-hover:text-primary">
 					Хэрэглэгчийн гарын авлага
 				</span>
 			</Link>

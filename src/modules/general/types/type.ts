@@ -21,7 +21,7 @@ interface Acquirer {
   user_prefix: string
 }
 
-export interface MCC {
+export interface IMCC {
   mcc_code: string
   is_active: boolean
   g_business_direction_id: string
@@ -174,10 +174,10 @@ interface UserHistoryType {
   name: string
 }
 
-export interface GeneralData {
+export interface IGeneralData {
   acquirers: Acquirer[]
   s3host: string
-  mccs: MCC[]
+  mccs: IMCC[]
   business_directions: BusinessDirection[]
   approved_account_banks: ApprovedAccountBank[]
   banks: Bank[]

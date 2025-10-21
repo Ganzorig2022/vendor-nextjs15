@@ -26,7 +26,7 @@ export const Navbar = ({ children }: { children: React.ReactNode }) => {
 							variant="outline"
 							onClick={() => push("/help")}>
 							<BadgeInfo className="h-4 w-4 mr-2" />
-							<span className="md:hidden lg:block xs:sm:text-[10px] sm:text-[10px] md:text-[12px] lg:text-sm xl:text-base">
+							<span className="md:hidden lg:block xs:sm:text-[10px] sm:text-[10px] md:text-[12px] lg:text-xs xl:text-base">
 								Тусламж
 							</span>
 						</Button>
@@ -34,7 +34,7 @@ export const Navbar = ({ children }: { children: React.ReactNode }) => {
 							variant="outline"
 							onClick={() => push("/profile")}>
 							<UserRoundCog className="h-4 w-4 mr-2" />
-							<span className="md:hidden lg:block xs:sm:text-[10px] sm:text-[10px] md:text-[12px] lg:text-sm xl:text-base">
+							<span className="md:hidden lg:block xs:sm:text-[10px] sm:text-[10px] md:text-[12px] lg:text-xs xl:text-base">
 								Профайл
 							</span>
 						</Button>
@@ -42,7 +42,7 @@ export const Navbar = ({ children }: { children: React.ReactNode }) => {
 							variant="outline"
 							onClick={handleLogout}>
 							<LogOut className="h-4 w-4 mr-2" />
-							<span className="md:hidden lg:block xs:sm:text-[10px] sm:text-[10px] md:text-[12px] lg:text-sm xl:text-base">
+							<span className="md:hidden lg:block xs:sm:text-[10px] sm:text-[10px] md:text-[12px] lg:text-xs xl:text-base">
 								Гарах
 							</span>
 						</Button>

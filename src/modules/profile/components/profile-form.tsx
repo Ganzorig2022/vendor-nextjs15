@@ -83,7 +83,7 @@ export function ProfileForm() {
 										<div className="space-y-2">
 											<Label
 												htmlFor="customerType"
-												className="text-sm font-medium text-foreground">
+												className="text-xs font-medium text-foreground">
 												Харилцагчийн төрөл
 											</Label>
 											<Input
@@ -96,7 +96,7 @@ export function ProfileForm() {
 											/>
 											{merchantForm.formState.errors
 												.customerType && (
-												<p className="text-sm text-destructive">
+												<p className="text-xs text-destructive">
 													{
 														merchantForm.formState
 															.errors.customerType
@@ -109,7 +109,7 @@ export function ProfileForm() {
 										<div className="space-y-2">
 											<Label
 												htmlFor="merchantName"
-												className="text-sm font-medium text-foreground">
+												className="text-xs font-medium text-foreground">
 												Мерчантын нэр
 											</Label>
 											<Input
@@ -122,7 +122,7 @@ export function ProfileForm() {
 											/>
 											{merchantForm.formState.errors
 												.merchantName && (
-												<p className="text-sm text-destructive">
+												<p className="text-xs text-destructive">
 													{
 														merchantForm.formState
 															.errors.merchantName
@@ -137,7 +137,7 @@ export function ProfileForm() {
 										<div className="space-y-2">
 											<Label
 												htmlFor="lastName"
-												className="text-sm font-medium text-foreground">
+												className="text-xs font-medium text-foreground">
 												Овог
 											</Label>
 											<Input
@@ -150,7 +150,7 @@ export function ProfileForm() {
 											/>
 											{merchantForm.formState.errors
 												.lastName && (
-												<p className="text-sm text-destructive">
+												<p className="text-xs text-destructive">
 													{
 														merchantForm.formState
 															.errors.lastName
@@ -163,7 +163,7 @@ export function ProfileForm() {
 										<div className="space-y-2">
 											<Label
 												htmlFor="processCode"
-												className="text-sm font-medium text-foreground">
+												className="text-xs font-medium text-foreground">
 												Процесс код
 											</Label>
 											<Input
@@ -176,7 +176,7 @@ export function ProfileForm() {
 											/>
 											{merchantForm.formState.errors
 												.processCode && (
-												<p className="text-sm text-destructive">
+												<p className="text-xs text-destructive">
 													{
 														merchantForm.formState
 															.errors.processCode
@@ -191,7 +191,7 @@ export function ProfileForm() {
 										<div className="space-y-2">
 											<Label
 												htmlFor="firstName"
-												className="text-sm font-medium text-foreground">
+												className="text-xs font-medium text-foreground">
 												Нэр
 											</Label>
 											<Input
@@ -204,7 +204,7 @@ export function ProfileForm() {
 											/>
 											{merchantForm.formState.errors
 												.firstName && (
-												<p className="text-sm text-destructive">
+												<p className="text-xs text-destructive">
 													{
 														merchantForm.formState
 															.errors.firstName
@@ -217,7 +217,7 @@ export function ProfileForm() {
 										<div className="space-y-2">
 											<Label
 												htmlFor="quickQrName"
-												className="text-sm font-medium text-foreground">
+												className="text-xs font-medium text-foreground">
 												Quick Qr Клейнт нэр
 											</Label>
 											<Input
@@ -230,7 +230,7 @@ export function ProfileForm() {
 											/>
 											{merchantForm.formState.errors
 												.quickQrName && (
-												<p className="text-sm text-destructive">
+												<p className="text-xs text-destructive">
 													{
 														merchantForm.formState
 															.errors.quickQrName
@@ -244,7 +244,7 @@ export function ProfileForm() {
 									<div className="space-y-2">
 										<Label
 											htmlFor="register"
-											className="text-sm font-medium text-foreground">
+											className="text-xs font-medium text-foreground">
 											Регистр
 										</Label>
 										<Input
@@ -257,7 +257,7 @@ export function ProfileForm() {
 										/>
 										{merchantForm.formState.errors
 											.register && (
-											<p className="text-sm text-destructive">
+											<p className="text-xs text-destructive">
 												{
 													merchantForm.formState
 														.errors.register.message
@@ -284,7 +284,7 @@ export function ProfileForm() {
 										<div className="space-y-2">
 											<Label
 												htmlFor="username"
-												className="text-sm font-medium text-foreground">
+												className="text-xs font-medium text-foreground">
 												Нэвтрэх нэр
 											</Label>
 											<Input
@@ -297,7 +297,7 @@ export function ProfileForm() {
 											/>
 											{userForm.formState.errors
 												.username && (
-												<p className="text-sm text-destructive">
+												<p className="text-xs text-destructive">
 													{
 														userForm.formState
 															.errors.username
@@ -310,7 +310,7 @@ export function ProfileForm() {
 										<div className="space-y-2">
 											<Label
 												htmlFor="userLastName"
-												className="text-sm font-medium text-foreground">
+												className="text-xs font-medium text-foreground">
 												Овог
 											</Label>
 											<Input
@@ -323,7 +323,7 @@ export function ProfileForm() {
 											/>
 											{userForm.formState.errors
 												.userLastName && (
-												<p className="text-sm text-destructive">
+												<p className="text-xs text-destructive">
 													{
 														userForm.formState
 															.errors.userLastName
@@ -338,7 +338,7 @@ export function ProfileForm() {
 										<div className="space-y-2">
 											<Label
 												htmlFor="position"
-												className="text-sm font-medium text-foreground">
+												className="text-xs font-medium text-foreground">
 												Албан тушаал
 											</Label>
 											<Input
@@ -351,7 +351,7 @@ export function ProfileForm() {
 											/>
 											{userForm.formState.errors
 												.position && (
-												<p className="text-sm text-destructive">
+												<p className="text-xs text-destructive">
 													{
 														userForm.formState
 															.errors.position
@@ -364,7 +364,7 @@ export function ProfileForm() {
 										<div className="space-y-2">
 											<Label
 												htmlFor="userFirstName"
-												className="text-sm font-medium text-foreground">
+												className="text-xs font-medium text-foreground">
 												Нэр
 											</Label>
 											<Input
@@ -377,7 +377,7 @@ export function ProfileForm() {
 											/>
 											{userForm.formState.errors
 												.userFirstName && (
-												<p className="text-sm text-destructive">
+												<p className="text-xs text-destructive">
 													{
 														userForm.formState
 															.errors
@@ -393,7 +393,7 @@ export function ProfileForm() {
 										<div className="space-y-2">
 											<Label
 												htmlFor="userRegister"
-												className="text-sm font-medium text-foreground">
+												className="text-xs font-medium text-foreground">
 												Регистр
 											</Label>
 											<Input
@@ -406,7 +406,7 @@ export function ProfileForm() {
 											/>
 											{userForm.formState.errors
 												.userRegister && (
-												<p className="text-sm text-destructive">
+												<p className="text-xs text-destructive">
 													{
 														userForm.formState
 															.errors.userRegister
@@ -419,7 +419,7 @@ export function ProfileForm() {
 										<div className="space-y-2">
 											<Label
 												htmlFor="email"
-												className="text-sm font-medium text-foreground">
+												className="text-xs font-medium text-foreground">
 												Цахим хаяг
 											</Label>
 											<Input
@@ -431,7 +431,7 @@ export function ProfileForm() {
 											/>
 											{userForm.formState.errors
 												.email && (
-												<p className="text-sm text-destructive">
+												<p className="text-xs text-destructive">
 													{
 														userForm.formState
 															.errors.email
@@ -445,7 +445,7 @@ export function ProfileForm() {
 									<div className="space-y-2">
 										<Label
 											htmlFor="phone"
-											className="text-sm font-medium text-foreground">
+											className="text-xs font-medium text-foreground">
 											Утас
 										</Label>
 										<Input
@@ -455,7 +455,7 @@ export function ProfileForm() {
 											disabled
 										/>
 										{userForm.formState.errors.phone && (
-											<p className="text-sm text-destructive">
+											<p className="text-xs text-destructive">
 												{
 													userForm.formState.errors
 														.phone.message
