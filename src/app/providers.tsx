@@ -15,7 +15,7 @@ export function Providers({ children }: { children: ReactNode }) {
 				enableSystem>
 				{children}
 				<Toaster
-					position="top-center"
+					position="top-right"
 					richColors
 					closeButton
 				/>
