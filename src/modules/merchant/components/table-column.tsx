@@ -2,13 +2,14 @@
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { getBusinessDirection, getMCC } from "@/lib/utils";
+import { DATE_FORMAT } from "@/core/constants/values";
+import { getBusinessDirection, getCityName, getDistrictName, getMCC } from "@/lib/utils";
 import { ColumnDef } from "@tanstack/react-table";
 import dayjs from "dayjs";
 import { ArrowUpDown, Eye } from "lucide-react";
 import Link from "next/link";
+import { MerchantType } from "../schema/merchant.schema";
 import { IMerchantItem } from "../types/types";
-import { DATE_FORMAT } from "@/core/constants/values";
 
 export const columns: ColumnDef<IMerchantItem>[] = [
 	{
@@ -70,10 +71,20 @@ export const columns: ColumnDef<IMerchantItem>[] = [
 	{
 		accessorKey: "city",
 		header: "Байрших хот",
+		cell: ({ row }) => {
+			const city = row.original.city;
+			const cityName = getCityName(city ?? "");
+			return <div>{cityName || "-"}</div>;
+		},
 	},
 	{
 		accessorKey: "district",
 		header: "Сум/Дүүрэг",
+		cell: ({ row }) => {
+			const district = row.original.district;
+			const districtName = getDistrictName(district ?? "");
+			return <div>{districtName || "-"}</div>;
+		},
 	},
 	{
 		accessorKey: "address",
@@ -139,7 +150,7 @@ export const columns: ColumnDef<IMerchantItem>[] = [
 		cell: ({ row }) => {
 			const { id, type, name } = row.original;
 			const searchParams = new URLSearchParams({
-				type: type as "COMPANY" | "PERSON",
+				type: type as MerchantType,
 				name: name as string,
 			});
 			return (

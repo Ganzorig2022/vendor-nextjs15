@@ -37,12 +37,15 @@ const MerchantLayoutContent = ({ children }: { children: React.ReactNode }) => {
 				leftContent={
 					merchantType ? (
 						<Badge
+							className="text-[13px]"
 							variant={
 								merchantType === "PERSON"
 									? "success"
 									: "destructive"
 							}>
-							Иргэн
+							{merchantType === "PERSON"
+								? "Иргэн"
+								: "Байгууллага"}
 						</Badge>
 					) : undefined
 				}

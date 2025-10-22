@@ -3,7 +3,9 @@
 import { useMutation } from "@tanstack/react-query";
 import {
 	merchantCompanyCreate,
+	merchantCompanyUpdate,
 	merchantPersonCreate,
+	merchantPersonUpdate,
 } from "./merchant.service";
 import { APIError } from "@/modules/profile/types/types";
 
@@ -31,5 +33,30 @@ export const useMerchantMutations = (opts?: {
 		},
 	});
 
-	return { merchantCompanyCreateMutation, merchantPersonCreateMutation };
+	const merchantCompanyUpdateMutation = useMutation({
+		mutationFn: merchantCompanyUpdate,
+		onSuccess: (data) => {
+			opts?.onSuccess?.(data);
+		},
+		onError: (err: APIError) => {
+			opts?.onError?.(err); //
+		},
+	});
+
+	const merchantPersonUpdateMutation = useMutation({
+		mutationFn: merchantPersonUpdate,
+		onSuccess: (data) => {
+			opts?.onSuccess?.(data);
+		},
+		onError: (err: APIError) => {
+			opts?.onError?.(err); //
+		},
+	});
+
+	return {
+		merchantCompanyCreateMutation,
+		merchantPersonCreateMutation,
+		merchantCompanyUpdateMutation,
+		merchantPersonUpdateMutation,
+	};
 };

@@ -34,3 +34,19 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+✅ 4️⃣ Optional — Add mutations auto-refetch
+
+If you want your mutations (create/update/delete merchant) to auto-refresh relevant queries, do this in your mutation hooks:
+
+```js
+const queryClient = useQueryClient();
+
+const merchantUpdateMutation = useMutation({
+	mutationFn: updateMerchant,
+	onSuccess: () => {
+		queryClient.invalidateQueries({ queryKey: ["merchant:list"] });
+		queryClient.invalidateQueries({ queryKey: ["merchant:detail"] });
+	},
+});
+```

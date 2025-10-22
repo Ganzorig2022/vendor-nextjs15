@@ -51,6 +51,12 @@ export const companyMerchantSchema = z.object({
 		.max(255, "Хэт урт байна")
 		.regex(validation.namePattern),
 
+	business_direction_id: z
+		.string()
+		.describe("Бизнесийн чиглэл")
+		.min(1, "Бизнесийн оруулна уу")
+		.max(255, "Хэт урт байна"),
+
 	mcc_code: z
 		.string()
 		.describe("MCC код")
@@ -131,6 +137,11 @@ export const personMerchantSchema = z.object({
 		.max(255, "Хэт урт байна")
 		.regex(validation.namePattern),
 
+	business_direction_id: z
+		.string()
+		.describe("Бизнесийн чиглэл")
+		.min(1, "Бизнесийн оруулна уу")
+		.max(255, "Хэт урт байна"),
 	mcc_code: z
 		.string()
 		.describe("MCC код")
@@ -185,9 +196,10 @@ export const merchantFormDefaults = {
 	location_lat: "",
 	location_lng: "",
 	max_qr_account_count: "",
+	business_direction_id: "",
 };
 
-export type MerchantType = "ORGANIZATION" | "PERSON";
+export type MerchantType = "COMPANY" | "PERSON";
 
 export const PERSON_FIELD_LABELS: Record<string, string> = {
 	first_name: "Нэр",
@@ -195,6 +207,7 @@ export const PERSON_FIELD_LABELS: Record<string, string> = {
 	register_number: "Регистрийн дугаар",
 	business_name: "Бизнесийн нэр",
 	business_name_eng: "Бизнесийн нэр (Англи)",
+	business_direction_id: "Бизнесийн чиглэл",
 	mcc_code: "MCC код",
 	city: "Хот",
 	district: "Дүүрэг",
@@ -208,6 +221,7 @@ export const ORGANIZATION_FIELD_LABELS: Record<string, string> = {
 	owner_last_name: "Захиралын овог",
 	owner_register_no: "Захиралын регистрийн дугаар",
 	register_number: "Байгууллагын регистрийн дугаар",
+	business_direction_id: "Бизнесийн чиглэл",
 	company_name: "Компанийн нэр",
 	name: "Бизнесийн нэр",
 	name_eng: "Бизнесийн нэр (Англи)",

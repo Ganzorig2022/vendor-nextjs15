@@ -162,6 +162,15 @@ export interface IMerchantDetail {
 	merchantChangelogs: any[];
 	customerChangelogs: any[];
 	max_qr_account_count: number;
+	type: string;
+	phone: string;
+	email: string;
+	location_lat: string;
+	location_lng: string;
+	company_register_number: string;
+	owner_first_name: string;
+	owner_last_name: string;
+	owner_register_no: string;
 }
 
 interface MerchantPerson {

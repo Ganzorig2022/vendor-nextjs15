@@ -78,14 +78,14 @@ interface Bank {
   name_mon: string
 }
 
-interface City {
+export interface City {
   code: string
   name: string
   parent: string
   zone: string
 }
 
-interface District {
+export interface District {
   code: string
   name: string
   parent: string

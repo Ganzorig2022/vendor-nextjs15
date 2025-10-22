@@ -1,4 +1,4 @@
-import { BusinessDirection, CardTransactionType, IMCC } from '@/modules/general/types/type'
+import { BusinessDirection, CardTransactionType, IMCC, City, District } from '@/modules/general/types/type'
 import { clsx, type ClassValue } from 'clsx'
 import { twMerge } from 'tailwind-merge'
 
@@ -99,6 +99,54 @@ export const getBusinessDirection = (value: string) => {
     (b_direction: BusinessDirection) => b_direction.id === value,
   )?.name
   return mccName
+}
+
+export const getCityName = (value: string) => {
+  let CITY_ARRAY
+  if (typeof window !== 'undefined') {
+    const vendorStore = sessionStorage.getItem('vendor-store')
+    if (vendorStore) {
+      try {
+        const parsedStore = JSON.parse(vendorStore)
+        CITY_ARRAY =
+          parsedStore?.state?.generalData?.cities || []
+      } catch (error) {
+        console.error('Error parsing vendor-store:', error)
+        CITY_ARRAY = []
+      }
+    } else {
+      CITY_ARRAY = []
+    }
+  }
+
+  const cityName = CITY_ARRAY?.find(
+    (city: City) => city.code === value,
+  )?.name
+  return cityName
+}
+
+export const getDistrictName = (value: string) => {
+  let DISTRICT_ARRAY
+  if (typeof window !== 'undefined') {
+    const vendorStore = sessionStorage.getItem('vendor-store')
+    if (vendorStore) {
+      try {
+        const parsedStore = JSON.parse(vendorStore)
+        DISTRICT_ARRAY =
+          parsedStore?.state?.generalData?.districts || []
+      } catch (error) {
+        console.error('Error parsing vendor-store:', error)
+        DISTRICT_ARRAY = []
+      }
+    } else {
+      DISTRICT_ARRAY = []
+    }
+  }
+
+  const districtName = DISTRICT_ARRAY?.find(
+    (district: District) => district.code === value,
+  )?.name
+  return districtName
 }
 
 export const getCardTransactionType = (value: string) => {

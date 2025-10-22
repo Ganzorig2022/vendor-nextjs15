@@ -1,11 +1,11 @@
-'use client'
-import { create } from 'zustand'
-import { createJSONStorage, persist } from 'zustand/middleware'
-import { IGeneralData } from '../types/type'
+'use client';
+import { create } from 'zustand';
+import { createJSONStorage, persist } from 'zustand/middleware';
+import { IGeneralData } from '../types/type';
 
 interface IMainStore {
-  generalData: IGeneralData
-  updateGeneralData: (newData: IGeneralData) => void
+  generalData: IGeneralData;
+  updateGeneralData: (newData: IGeneralData) => void;
 }
 
 const useMainStore = create(
@@ -47,10 +47,10 @@ const useMainStore = create(
       updateGeneralData: (generalData: IGeneralData) => set({ generalData }),
     }),
     {
-      name: 'vendor-store', // unique name for this store
+      name: 'vendor-store',
       storage: createJSONStorage(() => sessionStorage),
-    },
-  ),
-)
+    }
+  )
+);
 
-export default useMainStore
+export default useMainStore;

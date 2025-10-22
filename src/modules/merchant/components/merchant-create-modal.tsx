@@ -8,35 +8,18 @@ import {
 	DialogHeader,
 	DialogTitle,
 } from "@/components/ui/dialog";
-import { Field, FieldError, FieldLabel } from "@/components/ui/field";
-import { Form } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
 import { Spinner } from "@/components/ui/spinner";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
-import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import {
 	CompanyMerchantFormType,
-	companyMerchantSchema,
 	MerchantType,
 	PersonMerchantFormType,
-	personMerchantSchema,
 } from "../schema/merchant.schema";
 
-import {
-	PERSON_FIELD_LABELS,
-	ORGANIZATION_FIELD_LABELS,
-} from "../schema/merchant.schema";
+import { DialogDescription } from "@radix-ui/react-dialog";
 import { useMerchantMutations } from "../api/merchant.mutations";
-import useMainStore from "@/modules/general/store/use-main-store";
-import {
-	Select,
-	SelectContent,
-	SelectItem,
-	SelectTrigger,
-	SelectValue,
-} from "@/components/ui/select";
+import MerchantForm from "./merchant-form";
 type Props = {
 	open: boolean;
 	close: React.Dispatch<React.SetStateAction<boolean>>;
@@ -44,50 +27,20 @@ type Props = {
 };
 
 export default function MerchantCreateModal({ open, close, callback }: Props) {
-	const { generalData } = useMainStore((s) => s);
-	const MCC_ARRAY = generalData?.mccs?.map((item) => ({
-		label: item.name_mon,
-		value: item.mcc_code,
-	}));
-	const DISTRICT_ARRAY = generalData?.districts?.map((item) => ({
-		label: item.name,
-		value: item.code,
-	}));
-	const CITY_ARRAY = generalData?.cities?.map((item) => ({
-		label: item.name,
-		value: item.code,
-	}));
-
 	const [merchantType, setMerchantType] = useState<MerchantType>("PERSON");
 	const { merchantCompanyCreateMutation, merchantPersonCreateMutation } =
 		useMerchantMutations({
 			onSuccess: () => {
 				close(false);
 				toast.success("Амжилттай хадгалагдлаа.");
-        callback()
+				callback();
 			},
-			onError: () => {
-				close(false);
-			},
+			onError: () => {},
 		});
+
 	const loading =
 		merchantCompanyCreateMutation.isPending ||
 		merchantPersonCreateMutation.isPending;
-
-	const schema =
-		merchantType === "ORGANIZATION"
-			? companyMerchantSchema
-			: personMerchantSchema;
-
-	const fieldLabels =
-		merchantType === "ORGANIZATION"
-			? ORGANIZATION_FIELD_LABELS
-			: PERSON_FIELD_LABELS;
-
-	const form = useForm<CompanyMerchantFormType | PersonMerchantFormType>({
-		resolver: zodResolver(schema),
-		mode: "onSubmit",
-	});
 
 	const onSubmit = (
 		values: CompanyMerchantFormType | PersonMerchantFormType
@@ -111,6 +64,7 @@ export default function MerchantCreateModal({ open, close, callback }: Props) {
 					<DialogTitle className="border-b pb-2">
 						Мерчант бүртгэх
 					</DialogTitle>
+					<DialogDescription className=""></DialogDescription>
 				</DialogHeader>
 
 				{/* 👇 Merchant Type Toggle */}
@@ -123,15 +77,21 @@ export default function MerchantCreateModal({ open, close, callback }: Props) {
 					</Button>
 					<Button
 						variant={
-							merchantType === "ORGANIZATION" ? "info" : "outline"
+							merchantType === "COMPANY" ? "info" : "outline"
 						}
 						size="sm"
-						onClick={() => setMerchantType("ORGANIZATION")}>
+						onClick={() => setMerchantType("COMPANY")}>
 						Байгууллага
 					</Button>
 				</div>
 
-				<Form {...form}>
+				<MerchantForm
+					merchantType={merchantType}
+					onSubmit={onSubmit}
+					className="flex flex-col gap-4 max-h-[70vh] overflow-y-auto"
+				/>
+
+				{/* <Form {...form}>
 					<form
 						id="merchantForm"
 						onSubmit={form.handleSubmit(onSubmit)}
@@ -162,8 +122,7 @@ export default function MerchantCreateModal({ open, close, callback }: Props) {
 													value={field.value ?? ""}
 													onValueChange={(val) =>
 														field.onChange(val)
-													} // ✅ fix
-												>
+													}>
 													<SelectTrigger
 														className="flex w-10 **:data-[slot=select-value]:block **:data-[slot=select-value]:truncate @[400px]/card:hidden"
 														size="sm"
@@ -195,8 +154,7 @@ export default function MerchantCreateModal({ open, close, callback }: Props) {
 													value={field.value ?? ""}
 													onValueChange={(val) =>
 														field.onChange(val)
-													} // ✅ fix
-												>
+													}>
 													<SelectTrigger
 														className="flex w-10 **:data-[slot=select-value]:block **:data-[slot=select-value]:truncate @[400px]/card:hidden"
 														size="sm"
@@ -228,8 +186,7 @@ export default function MerchantCreateModal({ open, close, callback }: Props) {
 													value={field.value ?? ""}
 													onValueChange={(val) =>
 														field.onChange(val)
-													} // ✅ fix
-												>
+													}>
 													<SelectTrigger
 														className="flex w-10 **:data-[slot=select-value]:block **:data-[slot=select-value]:truncate @[400px]/card:hidden"
 														size="sm"
@@ -285,7 +242,7 @@ export default function MerchantCreateModal({ open, close, callback }: Props) {
 							);
 						})}
 					</form>
-				</Form>
+				</Form> */}
 
 				<DialogFooter>
 					<DialogClose asChild>

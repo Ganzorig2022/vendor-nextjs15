@@ -24,11 +24,14 @@ import {
 import { useState } from "react";
 
 const MerchantPage = () => {
+	const [openModal, setOpenModal] = useState(false);
 	const { onFilterClear, onFilter, query } = useSearchFilter();
 	const { generalData } = useMainStore((s) => s);
 	const { mccs } = generalData;
-	const { data, refetch, isLoading } = useMerchantQuery(query);
-	const [openModal, setOpenModal] = useState(false);
+	const { data, refetch, isLoading } = useMerchantQuery({
+		type: "list",
+		query: query,
+	});
 
 	if (isLoading)
 		return (
