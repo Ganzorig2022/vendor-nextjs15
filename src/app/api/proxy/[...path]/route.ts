@@ -1,17 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
 
-// Make sure this points to your actual backend
-const BACKEND_URL = process.env.NEXT_PUBLIC_API_URL;
+const BACKEND_URL = process.env.NEXT_PUBLIC_API_URL!;
 
-async function handleRequest(
+export async function handleRequest(
 	request: NextRequest,
 	context: { params: Promise<{ path: string[] }> }
 ) {
 	try {
 		const { path } = await context.params;
-
-		// Get token from cookie - this works in route handlers
 		const cookieStore = await cookies();
 		const accessToken = cookieStore.get("access_token")?.value;
 
@@ -22,22 +19,26 @@ async function handleRequest(
 			);
 		}
 
-		// Build the target URL
 		const targetPath = path.join("/");
-		console.log("👉Proxying request to:", targetPath); // Debug log
-
 		const searchParams = request.nextUrl.searchParams.toString();
-		const targetUrl = `${BACKEND_URL}/${targetPath}${searchParams ? `?${searchParams}` : ""}`;
+		const targetUrl = `${BACKEND_URL}/${targetPath}${
+			searchParams ? `?${searchParams}` : ""
+		}`;
 
-		console.log("👉Proxying request to:", targetUrl); // Debug log
+		console.log("🔁 Proxying to:", targetUrl);
 
-		// Get request body if present
-		let body = undefined;
-		if (request.method !== "GET" && request.method !== "HEAD") {
-			body = await request.text();
+		// --- Read request body safely ---
+		let body: BodyInit | undefined;
+		if (["POST", "PUT", "PATCH", "DELETE"].includes(request.method)) {
+			const contentType = request.headers.get("content-type") || "";
+			if (contentType.includes("application/json")) {
+				body = JSON.stringify(await request.json());
+			} else {
+				body = await request.text();
+			}
 		}
 
-		// Forward the request to your backend
+		// --- Forward request to backend ---
 		const response = await fetch(targetUrl, {
 			method: request.method,
 			headers: {
@@ -48,17 +49,18 @@ async function handleRequest(
 			body,
 		});
 
-		const data = await response.text();
+		// --- Handle backend response ---
+		const contentType = response.headers.get("content-type") || "";
+		const responseBody = await response.text();
 
-		return new NextResponse(data, {
+		return new NextResponse(responseBody, {
 			status: response.status,
 			headers: {
-				"Content-Type":
-					response.headers.get("content-type") || "application/json",
+				"Content-Type": contentType,
 			},
 		});
 	} catch (error) {
-		console.error("Proxy error:", error);
+		console.error("❌ Proxy error:", error);
 		return NextResponse.json(
 			{ ok: false, message: "Proxy request failed" },
 			{ status: 500 }
@@ -66,6 +68,7 @@ async function handleRequest(
 	}
 }
 
+// ✅ Export handlers for all methods
 export const GET = handleRequest;
 export const POST = handleRequest;
 export const PUT = handleRequest;

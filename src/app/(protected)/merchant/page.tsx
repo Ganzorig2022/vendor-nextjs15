@@ -27,7 +27,7 @@ const MerchantPage = () => {
 	const { onFilterClear, onFilter, query } = useSearchFilter();
 	const { generalData } = useMainStore((s) => s);
 	const { mccs } = generalData;
-	const { data, isLoading } = useMerchantQuery(query);
+	const { data, refetch, isLoading } = useMerchantQuery(query);
 	const [openModal, setOpenModal] = useState(false);
 
 	if (isLoading)
@@ -137,7 +137,7 @@ const MerchantPage = () => {
 				<MerchantCreateModal
 					open={openModal}
 					close={setOpenModal}
-					callback={() => {}}
+					callback={refetch}
 				/>
 			</Card>
 		</main>

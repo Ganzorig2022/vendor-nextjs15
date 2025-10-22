@@ -62,7 +62,9 @@ export default function MerchantCreateModal({ open, close, callback }: Props) {
 	const { merchantCompanyCreateMutation, merchantPersonCreateMutation } =
 		useMerchantMutations({
 			onSuccess: () => {
+				close(false);
 				toast.success("Амжилттай хадгалагдлаа.");
+        callback()
 			},
 			onError: () => {
 				close(false);
@@ -91,15 +93,13 @@ export default function MerchantCreateModal({ open, close, callback }: Props) {
 		values: CompanyMerchantFormType | PersonMerchantFormType
 	) => {
 		console.log("✅ Submitted:", merchantType, values);
-		toast.success("Merchant form submitted!");
 
 		const service =
 			merchantType === "PERSON"
-				? merchantCompanyCreateMutation
-				: merchantPersonCreateMutation;
+				? merchantPersonCreateMutation
+				: merchantCompanyCreateMutation;
 
 		service.mutate(values);
-		// callback();
 	};
 
 	return (

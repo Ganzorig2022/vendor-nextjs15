@@ -32,7 +32,7 @@ export const getMerchant = async (
 export const merchantCompanyCreate = async (
 	payload: CompanyMerchantFormType | PersonMerchantFormType
 ): Promise<IMerchantItem> => {
-	const { data } = await axiosClientWithAuh.post("/merchant/create", payload);
+	const { data } = await axiosClientWithAuh.post("/merchant/company", payload);
 	return data;
 };
 
