@@ -10,6 +10,7 @@ import { Spinner } from "@/components/ui/spinner";
 import { useSearchFilter } from "@/hooks/use-search-filter";
 import useMainStore from "@/modules/general/store/use-main-store";
 import { useMerchantQuery } from "@/modules/merchant/api/merchant.query";
+import MerchantCreateModal from "@/modules/merchant/components/merchant-create-modal";
 import { MerchantListTable } from "@/modules/merchant/components/table";
 import { columns } from "@/modules/merchant/components/table-column";
 import { m } from "framer-motion";
@@ -20,12 +21,14 @@ import {
 	Loader2,
 	SearchX,
 } from "lucide-react";
+import { useState } from "react";
 
 const MerchantPage = () => {
 	const { onFilterClear, onFilter, query } = useSearchFilter();
 	const { generalData } = useMainStore((s) => s);
 	const { mccs } = generalData;
 	const { data, isLoading } = useMerchantQuery(query);
+	const [openModal, setOpenModal] = useState(false);
 
 	if (isLoading)
 		return (
@@ -41,7 +44,8 @@ const MerchantPage = () => {
 					<Button
 						variant="success"
 						size="sm"
-						disabled={isLoading}>
+						disabled={isLoading}
+						onClick={() => setOpenModal(true)}>
 						<CirclePlus className="h-4 w-4" />
 						Мерчант бүртгэх
 					</Button>
@@ -130,6 +134,11 @@ const MerchantPage = () => {
 						/>
 					)}
 				</div>
+				<MerchantCreateModal
+					open={openModal}
+					close={setOpenModal}
+					callback={() => {}}
+				/>
 			</Card>
 		</main>
 	);

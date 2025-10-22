@@ -1,9 +1,8 @@
 import "@/styles/globals.css";
 import type { Metadata } from "next";
 import { Nunito } from "next/font/google";
-import { Toaster } from "sonner";
-import { Providers } from "./providers";
 import { twMerge } from "tailwind-merge";
+import { Providers } from "./providers";
 
 export const metadata: Metadata = {
 	title: "QPay Vendor Web",
@@ -27,11 +26,6 @@ export default function RootLayout({
 			suppressHydrationWarning>
 			<body className={twMerge("bg-background", nunito.variable)}>
 				<Providers>{children}</Providers>
-				<Toaster
-					position="top-center"
-					richColors
-					closeButton
-				/>
 			</body>
 		</html>
 	);

@@ -17,7 +17,7 @@ export const userSchema = z.object({
   position: z.string().min(1, "Албан тушаал оруулна уу"),
   userFirstName: z.string().min(1, "Нэр оруулна уу"),
   userRegister: z.string().min(1, "Регистр оруулна уу"),
-  email: z.string().email("Зөв цахим хаяг оруулна уу"),
+  email: z.email("Зөв цахим хаяг оруулна уу"),
   phone: z.string().min(1, "Утас оруулна уу"),
 })
 

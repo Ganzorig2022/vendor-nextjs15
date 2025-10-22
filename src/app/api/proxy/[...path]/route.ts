@@ -2,64 +2,68 @@ import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
 
 // Make sure this points to your actual backend
-const BACKEND_URL = process.env.NEXT_PUBLIC_API_URL
+const BACKEND_URL = process.env.NEXT_PUBLIC_API_URL;
 
 async function handleRequest(
-  request: NextRequest,
-  context: { params: Promise<{ path: string[] }> }
+	request: NextRequest,
+	context: { params: Promise<{ path: string[] }> }
 ) {
-  try {
-    const { path } = await context.params;
-    
-    // Get token from cookie - this works in route handlers
-    const cookieStore = await cookies();
-    const accessToken = cookieStore.get("access_token")?.value;
+	try {
+		const { path } = await context.params;
 
-    if (!accessToken) {
-      return NextResponse.json(
-        { ok: false, message: "Unauthorized" },
-        { status: 401 }
-      );
-    }
+		// Get token from cookie - this works in route handlers
+		const cookieStore = await cookies();
+		const accessToken = cookieStore.get("access_token")?.value;
 
-    // Build the target URL
-    const targetPath = path.join("/");
-    const searchParams = request.nextUrl.searchParams.toString();
-    const targetUrl = `${BACKEND_URL}/${targetPath}${searchParams ? `?${searchParams}` : ""}`;
+		if (!accessToken) {
+			return NextResponse.json(
+				{ ok: false, message: "Unauthorized" },
+				{ status: 401 }
+			);
+		}
 
-    console.log("👉Proxying request to:", targetUrl); // Debug log
+		// Build the target URL
+		const targetPath = path.join("/");
+		console.log("👉Proxying request to:", targetPath); // Debug log
 
-    // Get request body if present
-    let body = undefined;
-    if (request.method !== "GET" && request.method !== "HEAD") {
-      body = await request.text();
-    }
+		const searchParams = request.nextUrl.searchParams.toString();
+		const targetUrl = `${BACKEND_URL}/${targetPath}${searchParams ? `?${searchParams}` : ""}`;
 
-    // Forward the request to your backend
-    const response = await fetch(targetUrl, {
-      method: request.method,
-      headers: {
-        "Authorization": `Bearer ${accessToken}`,
-        "Content-Type": request.headers.get("content-type") || "application/json",
-      },
-      body,
-    });
+		console.log("👉Proxying request to:", targetUrl); // Debug log
 
-    const data = await response.text();
-    
-    return new NextResponse(data, {
-      status: response.status,
-      headers: {
-        "Content-Type": response.headers.get("content-type") || "application/json",
-      },
-    });
-  } catch (error) {
-    console.error("Proxy error:", error);
-    return NextResponse.json(
-      { ok: false, message: "Proxy request failed" },
-      { status: 500 }
-    );
-  }
+		// Get request body if present
+		let body = undefined;
+		if (request.method !== "GET" && request.method !== "HEAD") {
+			body = await request.text();
+		}
+
+		// Forward the request to your backend
+		const response = await fetch(targetUrl, {
+			method: request.method,
+			headers: {
+				Authorization: `Bearer ${accessToken}`,
+				"Content-Type":
+					request.headers.get("content-type") || "application/json",
+			},
+			body,
+		});
+
+		const data = await response.text();
+
+		return new NextResponse(data, {
+			status: response.status,
+			headers: {
+				"Content-Type":
+					response.headers.get("content-type") || "application/json",
+			},
+		});
+	} catch (error) {
+		console.error("Proxy error:", error);
+		return NextResponse.json(
+			{ ok: false, message: "Proxy request failed" },
+			{ status: 500 }
+		);
+	}
 }
 
 export const GET = handleRequest;

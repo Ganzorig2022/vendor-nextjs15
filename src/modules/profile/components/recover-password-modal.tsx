@@ -111,6 +111,10 @@ const RecoverPasswordModal = ({ open, close }: RecoverPasswordModalProps) => {
 	};
 
 	const onCheckOldPassword = (oldPassword: string) => {
+		if (!user) {
+			toast.error("Хэрэглэгчийн мэдээлэл олдсонгүй.");
+			return;
+		}
 		checkPassword.mutate({
 			password: oldPassword,
 			user_id: user.id,
@@ -123,6 +127,10 @@ const RecoverPasswordModal = ({ open, close }: RecoverPasswordModalProps) => {
 	const onSubmit = (values: z.infer<typeof recoverPassSchema>) => {
 		if (!isPasswordValid) {
 			console.warn("❌ Password not valid according to checklist");
+			return;
+		}
+		if (!user) {
+			toast.error("Хэрэглэгчийн мэдээлэл олдсонгүй.");
 			return;
 		}
 		passwordResetMutation.mutate({
