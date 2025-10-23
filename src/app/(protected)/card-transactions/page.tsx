@@ -7,46 +7,38 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Spinner } from "@/components/ui/spinner";
+import { useGeneralData } from "@/hooks/use-general-data";
 import { useSearchFilter } from "@/hooks/use-search-filter";
+import { getCardTransactionType } from "@/lib/utils";
+import { useCardTransactionsMutations } from "@/modules/card-transactions/api/card-transactions.mutations";
+import { useCardTransactionsQuery } from "@/modules/card-transactions/api/card-transactions.query";
+import { CardTransactionsListTable } from "@/modules/card-transactions/components/table";
+import { columns } from "@/modules/card-transactions/components/table-column";
 import useMainStore from "@/modules/general/store/use-main-store";
-import { useMerchantMutations } from "@/modules/merchant/api/merchant.mutations";
-import { useMerchantQuery } from "@/modules/merchant/api/merchant.query";
-import { ComboBoxBusinessDirection } from "@/modules/merchant/components/combo-box-business-direction";
 import { ComboBoxMCC } from "@/modules/merchant/components/combo-box-mcc";
-import MerchantCreateModal from "@/modules/merchant/components/merchant-create-modal";
-import { MerchantListTable } from "@/modules/merchant/components/table";
-import { columns } from "@/modules/merchant/components/table-column";
-import {
-	CirclePlus,
-	Download,
-	ListRestart,
-	Loader2,
-	SearchX,
-} from "lucide-react";
-import { useState } from "react";
+import { Download, Loader2, SearchX } from "lucide-react";
 import { toast } from "sonner";
 
-export default function MerchantPage() {
-	const [openModal, setOpenModal] = useState(false);
-	const { onFilterClear, onFilter, query } = useSearchFilter();
-	const { generalData } = useMainStore((s) => s);
-	const { mccs, business_directions } = generalData;
+type Props = {};
 
-	const { data, refetch, isLoading } = useMerchantQuery({
+const CardTransactionsPage = (props: Props) => {
+	const { generalData } = useMainStore((s) => s);
+	const { CARD_TRANSACTIONS_ARRAY } = useGeneralData();
+	const { onFilterClear, onFilter, query } = useSearchFilter();
+	const { mccs } = generalData;
+	const { data, refetch, isLoading } = useCardTransactionsQuery({
 		type: "list",
 		query,
 	});
 
-	const { merchantExportMutation } = useMerchantMutations({
+	const { cardTransactionsExportMutation } = useCardTransactionsMutations({
 		onSuccess: (res) => {
 			window.open(`${generalData?.s3host}${res.url}`);
 			toast.success("Амжилттай татлаа.");
 		},
 	});
 
-	const isBusy = isLoading || merchantExportMutation.isPending;
-
-	const handleDownload = () => merchantExportMutation.mutate(query);
+	const isBusy = isLoading || cardTransactionsExportMutation.isPending;
 
 	if (isLoading)
 		return (
@@ -55,31 +47,23 @@ export default function MerchantPage() {
 			</div>
 		);
 
+	const handleDownload = () => cardTransactionsExportMutation.mutate(query);
 	return (
 		<main>
 			<Card className="px-4">
 				{/* 🔹 Header Buttons */}
 				<div className="flex gap-2 ml-auto">
 					<Button
-						variant="success"
-						size="sm"
-						disabled={isBusy}
-						onClick={() => setOpenModal(true)}>
-						<CirclePlus className="h-4 w-4" />
-						Мерчант бүртгэх
-					</Button>
-
-					<Button
 						variant="info"
 						size="sm"
 						disabled={isBusy}
 						onClick={handleDownload}>
-						{merchantExportMutation.isPending ? (
+						{cardTransactionsExportMutation.isPending ? (
 							<Loader2 className="h-4 w-4 animate-spin" />
 						) : (
 							<Download className="h-4 w-4" />
 						)}
-						{merchantExportMutation.isPending
+						{cardTransactionsExportMutation.isPending
 							? "Excel татаж байна..."
 							: "Excel татах"}
 					</Button>
@@ -99,24 +83,41 @@ export default function MerchantPage() {
 							disabled={isBusy}
 						/>
 					</div>
-
 					<CustomSelect
 						data={[
-							{ label: "Иргэн", value: "Иргэн" },
-							{ label: "Байгууллага", value: "Байгууллага" },
+							{ value: "SUCCESS", label: "Амжилттай" },
+							{ value: "FAILED", label: "Амжилтгүй" },
 						]}
 						labelKey="label"
 						valueKey="value"
-						queryField="type"
+						queryField="transaction_status"
 						query={query}
 						onFilter={onFilter}
-						placeholder="Мерчантын төрөл"
+						placeholder="Гүйлгээний төлөв"
+						renderItem={(item) => (
+							<Badge variant={item.value.toLowerCase() as any}>
+								{item.label}
+							</Badge>
+						)}
+						disabled={isBusy}
+					/>
+
+					<CustomSelect
+						data={CARD_TRANSACTIONS_ARRAY}
+						labelKey="label"
+						valueKey="value"
+						queryField="transaction_type"
+						query={query}
+						onFilter={onFilter}
+						placeholder="Гүйлгээний төрөл"
 						renderItem={(item) => {
-							const isPerson = item.value === "Иргэн";
+							const type = getCardTransactionType(item.value);
 							return (
 								<Badge
-									variant={isPerson ? "success" : "failed"}>
-									{item.label}
+									variant={
+										type?.code.toLowerCase() ?? "default"
+									}>
+									{type?.name}
 								</Badge>
 							);
 						}}
@@ -127,15 +128,6 @@ export default function MerchantPage() {
 						data={mccs}
 						value={query.mcc_code}
 						onChange={(v) => onFilter({ mcc_code: v })}
-						disabled={isBusy}
-					/>
-
-					<ComboBoxBusinessDirection
-						data={business_directions}
-						value={query.g_business_direction_id}
-						onChange={(v) =>
-							onFilter({ g_business_direction_id: v })
-						}
 						disabled={isBusy}
 					/>
 
@@ -165,35 +157,21 @@ export default function MerchantPage() {
 							<SearchX className="h-4 w-4 mr-2" />
 							Цэвэрлэх
 						</Button>
-
-						<Button
-							variant="success"
-							size="sm"
-							onClick={() => onFilterClear(true)}
-							disabled={isBusy}>
-							<ListRestart className="h-4 w-4" />
-							Шинэчлэх
-						</Button>
 					</div>
 				</div>
 
 				{/* 🔹 Table */}
 				<div className="mt-5">
 					{data && (
-						<MerchantListTable
+						<CardTransactionsListTable
 							columns={columns}
 							data={data.rows}
 						/>
 					)}
 				</div>
-
-				{/* 🔹 Modal */}
-				<MerchantCreateModal
-					open={openModal}
-					close={setOpenModal}
-					callback={refetch}
-				/>
 			</Card>
 		</main>
 	);
-}
+};
+
+export default CardTransactionsPage;

@@ -52,7 +52,7 @@ export const MENU_ITEMS = [
     items: [
       {
         title: 'Картын гүйлгээ',
-        url: ROUTES.protected.cardTransaction,
+        url: ROUTES.protected.cardTransactions,
         isActive: false,
       },
       {
@@ -69,7 +69,7 @@ export const MENU_ITEMS = [
     items: [
       {
         title: 'Дансны гүйлгээ',
-        url: ROUTES.protected.p2pTransaction,
+        url: ROUTES.protected.p2pTransactions,
         isActive: false,
       },
       {

@@ -2,13 +2,11 @@
 import { MainContent } from "@/components/main-content";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Spinner } from "@/components/ui/spinner";
 import { MoveLeft } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
-import { Suspense } from "react";
 
-const MerchantLayoutContent = ({ children }: { children: React.ReactNode }) => {
+const MerchantLayout = ({ children }: { children: React.ReactNode }) => {
 	const pathname = usePathname();
 	const isMainPage = pathname === "/merchant";
 	const searchParams = useSearchParams();
@@ -70,12 +68,12 @@ const MerchantLayoutContent = ({ children }: { children: React.ReactNode }) => {
 	);
 };
 
-const MerchantLayout = ({ children }: { children: React.ReactNode }) => {
-	return (
-		<Suspense fallback={<Spinner className="mt-auto" />}>
-			<MerchantLayoutContent>{children}</MerchantLayoutContent>
-		</Suspense>
-	);
-};
+// const MerchantLayout = ({ children }: { children: React.ReactNode }) => {
+// 	return (
+// 		<Suspense fallback={<Spinner className="mt-auto" />}>
+// 			<MerchantLayoutContent>{children}</MerchantLayoutContent>
+// 		</Suspense>
+// 	);
+// };
 
 export default MerchantLayout;

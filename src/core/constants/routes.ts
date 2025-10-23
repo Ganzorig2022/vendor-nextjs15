@@ -5,9 +5,9 @@ export const ROUTES = {
 	protected: {
 		home: "/",
 		merchant: "/merchant",
-		cardTransaction: "/card-transaction",
+		cardTransactions: "/card-transactions",
 		cardReport: "/card-report",
-		p2pTransaction: "/p2p-transaction",
+		p2pTransactions: "/p2p-transactions",
 		p2pReport: "/p2p-report",
 		profile: "/profile",
 		help: "/help",

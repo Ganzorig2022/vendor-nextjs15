@@ -1,4 +1,3 @@
-'use client'
 import React from 'react'
 
 type MainContentProps = {
@@ -20,7 +19,7 @@ export const MainContent = ({
     <div className="m-5">
       <div className={`flex items-center m-5 justify-between`}>
         <div className="flex gap-2 items-center">
-          <h1 className="text-lg">{leftTitle}</h1>
+          <h1 className="text-lg font-semibold">{leftTitle}</h1>
           <div>{leftContent}</div>
         </div>
         <div className="flex gap-2 items-center">

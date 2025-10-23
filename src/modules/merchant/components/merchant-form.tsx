@@ -20,7 +20,7 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@/components/ui/select";
-import { useLocationArrays } from "@/hooks/use-location-array";
+import { useGeneralData } from "@/hooks/use-general-data";
 import { useEffect } from "react";
 import {
 	ORGANIZATION_FIELD_LABELS,
@@ -40,7 +40,7 @@ type Props = {
 
 const MerchantForm = (props: Props) => {
 	const { merchantType, onSubmit, data, className, disabled = false } = props;
-	const { MCC_ARRAY, CITY_ARRAY, DISTRICT_ARRAY, BUSINESS_DIRECTIONS_ARRAY } = useLocationArrays();
+	const { MCC_ARRAY, CITY_ARRAY, DISTRICT_ARRAY, BUSINESS_DIRECTIONS_ARRAY } = useGeneralData();
 
 	const isCompany = merchantType === "COMPANY";
 	const schema = isCompany ? companyMerchantSchema : personMerchantSchema;

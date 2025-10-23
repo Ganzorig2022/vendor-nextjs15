@@ -1,14 +1,14 @@
 "use client";
 import { ROUTES } from "@/core/constants/routes";
 import { useAuthStore } from "@/modules/auth/store/auth.store";
-import { BadgeInfo, LogOut, UserRoundCog } from "lucide-react";
+import { BadgeInfo, Loader2, LogOut, UserRoundCog } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { Button } from "./ui/button";
 import { SidebarTrigger } from "./ui/sidebar";
 
 export const Navbar = () => {
 	const { push, replace } = useRouter();
-	const { logout, user } = useAuthStore((s) => s);
+	const { logout, isLoading, user } = useAuthStore((s) => s);
 
 	const handleLogout = async () => {
 		await logout();
@@ -26,7 +26,8 @@ export const Navbar = () => {
 				<div className="ml-auto flex items-center gap-2">
 					<Button
 						variant="outline"
-						onClick={() => push("/help")}>
+						onClick={() => push("/help")}
+						disabled={isLoading}>
 						<BadgeInfo className="h-4 w-4 mr-2" />
 						<span className="md:hidden lg:block xs:sm:text-[10px] sm:text-[10px] md:text-[12px] lg:text-xs xl:text-base">
 							Тусламж
@@ -34,7 +35,8 @@ export const Navbar = () => {
 					</Button>
 					<Button
 						variant="outline"
-						onClick={() => push("/profile")}>
+						onClick={() => push("/profile")}
+						disabled={isLoading}>
 						<UserRoundCog className="h-4 w-4 mr-2" />
 						<span className="md:hidden lg:block xs:sm:text-[10px] sm:text-[10px] md:text-[12px] lg:text-xs xl:text-base">
 							Профайл
@@ -42,10 +44,15 @@ export const Navbar = () => {
 					</Button>
 					<Button
 						variant="outline"
-						onClick={handleLogout}>
-						<LogOut className="h-4 w-4 mr-2" />
+						onClick={handleLogout}
+						disabled={isLoading}>
+						{isLoading ? (
+							<Loader2 className="h-4 w-4 animate-spin" />
+						) : (
+							<LogOut className="h-4 w-4 mr-2" />
+						)}
 						<span className="md:hidden lg:block xs:sm:text-[10px] sm:text-[10px] md:text-[12px] lg:text-xs xl:text-base">
-							Гарах
+							{isLoading ? "Гарч байна..." : "Гарах"}
 						</span>
 					</Button>
 				</div>
