@@ -9,27 +9,28 @@ import {
 	SelectValue,
 } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
-import { IMerchantListQuery } from "@/modules/merchant/types/types";
 import { useEffect, useState } from "react";
 
-/** Generic type so it can accept any dataset */
-interface CustomSelectProps<T extends Record<string, any>> {
-	data: T[]; // dataset
-	labelKey: keyof T; // which field to display as label
-	valueKey: keyof T; // which field to use as value
-	queryField: keyof IMerchantListQuery;
-	query: IMerchantListQuery;
-	onFilter: (value: { [key: string]: string | undefined }) => void;
-	placeholder?: string;
-	disabled?: boolean;
-
-	/** optional custom renderer for item */
-	renderItem?: (item: T) => React.ReactNode;
-	/** optional transform for value → rendered label */
-	getDisplayLabel?: (value: string, item?: T) => React.ReactNode;
+interface CustomSelectProps<
+  T extends Record<string, any>,
+  Q extends Record<string, any>
+> {
+  data: T[];
+  labelKey: keyof T;
+  valueKey: keyof T;
+  queryField: keyof Q;
+  query: Q;
+  onFilter: (value: { [key: string]: string | undefined }) => void;
+  placeholder?: string;
+  disabled?: boolean;
+  renderItem?: (item: T) => React.ReactNode;
+  getDisplayLabel?: (value: string, item?: T) => React.ReactNode;
 }
 
-export function CustomSelect<T extends Record<string, any>>({
+export function CustomSelect<
+	T extends Record<string, any>,
+	Q extends Record<string, any>,
+>({
 	data,
 	labelKey,
 	valueKey,
@@ -40,14 +41,13 @@ export function CustomSelect<T extends Record<string, any>>({
 	disabled = false,
 	renderItem,
 	getDisplayLabel,
-}: CustomSelectProps<T>) {
+}: CustomSelectProps<T, Q>) {
 	const [key, setKey] = useState(crypto.randomUUID());
-
 	const value = query[queryField] as string | undefined;
 
 	useEffect(() => {
 		if (!query[queryField]) setKey(crypto.randomUUID());
-	}, [query]);
+	}, [query, ]);
 
 	const selectedItem = data.find(
 		(item) => String(item[valueKey]) === String(value)
@@ -63,7 +63,7 @@ export function CustomSelect<T extends Record<string, any>>({
 				key={key}
 				value={value ?? ""}
 				onValueChange={(val) => {
-					if (!disabled) onFilter({ [queryField]: val });
+					if (!disabled) onFilter({ [queryField as string]: val });
 				}}
 				disabled={disabled}>
 				<SelectTrigger
@@ -103,7 +103,6 @@ export function CustomSelect<T extends Record<string, any>>({
 				)}
 			</Select>
 
-			{/* Optional visual overlay (for full blocking effect) */}
 			{disabled && (
 				<div className="absolute inset-0 bg-transparent cursor-not-allowed" />
 			)}

@@ -1,9 +1,7 @@
 import { ProfileForm } from "@/modules/profile/components/profile-form";
 import React from "react";
 
-type Props = {};
-
-const ProfilePage = (props: Props) => {
+const ProfilePage = () => {
 	return (
 		<div>
 			<ProfileForm />

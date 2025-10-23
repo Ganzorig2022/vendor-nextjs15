@@ -5,8 +5,9 @@ import { Button } from "@/components/ui/button";
 import { MoveLeft } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
+import { Suspense } from "react";
 
-const MerchantLayout = ({ children }: { children: React.ReactNode }) => {
+const MerchantLayoutContent = ({ children }: { children: React.ReactNode }) => {
 	const pathname = usePathname();
 	const isMainPage = pathname === "/merchant";
 	const searchParams = useSearchParams();
@@ -47,20 +48,6 @@ const MerchantLayout = ({ children }: { children: React.ReactNode }) => {
 						</Badge>
 					) : undefined
 				}
-				// rightContent={
-				//   isMainPage ? (
-				//     <m.div whileTap={{ scale: 0.85 }}>
-				//       <Button variant="info" size="sm" disabled={loading}>
-				//         {loading ? (
-				//           <Loader2 className="h-4 w-4 animate-spin" />
-				//         ) : (
-				//           <Download className="h-4 w-4" />
-				//         )}
-				//         {!loading ? 'Excel татах' : 'Excel татаж байна.'}
-				//       </Button>
-				//     </m.div>
-				//   ) : undefined
-				// }
 			>
 				{children}
 			</MainContent>
@@ -68,12 +55,12 @@ const MerchantLayout = ({ children }: { children: React.ReactNode }) => {
 	);
 };
 
-// const MerchantLayout = ({ children }: { children: React.ReactNode }) => {
-// 	return (
-// 		<Suspense fallback={<Spinner className="mt-auto" />}>
-// 			<MerchantLayoutContent>{children}</MerchantLayoutContent>
-// 		</Suspense>
-// 	);
-// };
+const MerchantLayout = ({ children }: { children: React.ReactNode }) => {
+	return (
+		<Suspense>
+			<MerchantLayoutContent>{children}</MerchantLayoutContent>
+		</Suspense>
+	);
+};
 
 export default MerchantLayout;

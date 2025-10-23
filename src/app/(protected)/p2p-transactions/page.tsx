@@ -10,12 +10,12 @@ import { Spinner } from "@/components/ui/spinner";
 import { useGeneralData } from "@/hooks/use-general-data";
 import { useSearchFilter } from "@/hooks/use-search-filter";
 import { getCardTransactionType } from "@/lib/utils";
-import { useCardTransactionsMutations } from "@/modules/card-transactions/api/card-transactions.mutations";
-import { useCardTransactionsQuery } from "@/modules/card-transactions/api/card-transactions.query";
-import { CardTransactionsListTable } from "@/modules/card-transactions/components/table";
-import { columns } from "@/modules/card-transactions/components/table-column";
 import useMainStore from "@/modules/general/store/use-main-store";
 import { ComboBoxMCC } from "@/modules/merchant/components/combo-box-mcc";
+import { useP2pTransactionsMutations } from "@/modules/p2p-transactions/api/p2p-transactions.mutations";
+import { useP2pTransactionsQuery } from "@/modules/p2p-transactions/api/p2p-transactions.query";
+import { P2pTransactionsListTable } from "@/modules/p2p-transactions/components/table";
+import { columns } from "@/modules/p2p-transactions/components/table-column";
 import { Download, Loader2, SearchX } from "lucide-react";
 import { toast } from "sonner";
 
@@ -24,19 +24,19 @@ const CardTransactionsPage = () => {
 	const { CARD_TRANSACTIONS_ARRAY } = useGeneralData();
 	const { onFilterClear, onFilter, query } = useSearchFilter();
 	const { mccs } = generalData;
-	const { data, isLoading } = useCardTransactionsQuery({
+	const { data, isLoading } = useP2pTransactionsQuery({
 		type: "list",
 		query,
 	});
 
-	const { cardTransactionsExportMutation } = useCardTransactionsMutations({
+	const { p2pTransactionsExportMutation } = useP2pTransactionsMutations({
 		onSuccess: (res) => {
 			window.open(`${generalData?.s3host}${res.url}`);
 			toast.success("Амжилттай татлаа.");
 		},
 	});
 
-	const isBusy = isLoading || cardTransactionsExportMutation.isPending;
+	const isBusy = isLoading || p2pTransactionsExportMutation.isPending;
 
 	if (isLoading)
 		return (
@@ -45,7 +45,7 @@ const CardTransactionsPage = () => {
 			</div>
 		);
 
-	const handleDownload = () => cardTransactionsExportMutation.mutate(query);
+	const handleDownload = () => p2pTransactionsExportMutation.mutate(query);
 	return (
 		<main>
 			<Card className="px-4">
@@ -56,12 +56,12 @@ const CardTransactionsPage = () => {
 						size="sm"
 						disabled={isBusy}
 						onClick={handleDownload}>
-						{cardTransactionsExportMutation.isPending ? (
+						{p2pTransactionsExportMutation.isPending ? (
 							<Loader2 className="h-4 w-4 animate-spin" />
 						) : (
 							<Download className="h-4 w-4" />
 						)}
-						{cardTransactionsExportMutation.isPending
+						{p2pTransactionsExportMutation.isPending
 							? "Excel татаж байна..."
 							: "Excel татах"}
 					</Button>
@@ -83,12 +83,12 @@ const CardTransactionsPage = () => {
 					</div>
 					<CustomSelect
 						data={[
-							{ value: "SUCCESS", label: "Амжилттай" },
+							{ value: "PAID", label: "Амжилттай" },
 							{ value: "FAILED", label: "Амжилтгүй" },
 						]}
 						labelKey="label"
 						valueKey="value"
-						queryField={"transaction_status" as any}
+						queryField={"payment_status" as any}
 						query={query}
 						onFilter={onFilter}
 						placeholder="Гүйлгээний төлөв"
@@ -104,7 +104,7 @@ const CardTransactionsPage = () => {
 						data={CARD_TRANSACTIONS_ARRAY}
 						labelKey="label"
 						valueKey="value"
-						queryField={"transaction_type" as any}
+						queryField={"payment_type" as any}
 						query={query}
 						onFilter={onFilter}
 						placeholder="Гүйлгээний төрөл"
@@ -161,7 +161,7 @@ const CardTransactionsPage = () => {
 				{/* 🔹 Table */}
 				<div className="mt-5">
 					{data && (
-						<CardTransactionsListTable
+						<P2pTransactionsListTable
 							columns={columns}
 							data={data.rows}
 						/>

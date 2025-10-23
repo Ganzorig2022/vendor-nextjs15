@@ -3,7 +3,7 @@ import { cookies } from "next/headers";
 
 const BACKEND_URL = process.env.NEXT_PUBLIC_API_URL!;
 
-export async function handleRequest(
+async function proxyHandler(
 	request: NextRequest,
 	context: { params: Promise<{ path: string[] }> }
 ) {
@@ -69,8 +69,8 @@ export async function handleRequest(
 }
 
 // ✅ Export handlers for all methods
-export const GET = handleRequest;
-export const POST = handleRequest;
-export const PUT = handleRequest;
-export const PATCH = handleRequest;
-export const DELETE = handleRequest;
+export const GET = proxyHandler;
+export const POST = proxyHandler;
+export const PUT = proxyHandler;
+export const PATCH = proxyHandler;
+export const DELETE = proxyHandler;

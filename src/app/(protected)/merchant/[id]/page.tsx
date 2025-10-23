@@ -11,7 +11,7 @@ import { useParams, useSearchParams } from "next/navigation";
 import { toast } from "sonner";
 
 export default function MerchantDetailPage() {
-	const params = useParams(); // ✅ works in client components
+	const params = useParams();
 	const merchant_id = params?.id as string;
 	const searchParams = useSearchParams();
 	const merchantType = searchParams.get("type") as MerchantType;
@@ -43,7 +43,7 @@ export default function MerchantDetailPage() {
 	if (!data) return <div>No merchant found</div>;
 
 	const onSubmit = (values: any) => {
-		let body = values;
+		const body = values;
 		body["merchant_id"] = data?.id;
 		console.log("✅ Submitted:", body);
 

@@ -124,7 +124,7 @@ const RecoverPasswordModal = ({ open, close }: RecoverPasswordModalProps) => {
 	const password = recoverPassForm.watch("newPassword") || "";
 	const confirmPassword = recoverPassForm.watch("confirmPassword") || "";
 
-	const onSubmit = (values: z.infer<typeof recoverPassSchema>) => {
+	const onSubmit = () => {
 		if (!isPasswordValid) {
 			console.warn("❌ Password not valid according to checklist");
 			return;
@@ -163,8 +163,7 @@ const RecoverPasswordModal = ({ open, close }: RecoverPasswordModalProps) => {
 						{inputFields.map((item) => (
 							<Controller
 								key={item.name}
-								// @ts-ignore
-								name={item.name}
+								name={item.name as any}
 								control={recoverPassForm.control}
 								render={({ field, fieldState }) => (
 									<Field data-invalid={fieldState.invalid}>

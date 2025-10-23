@@ -107,7 +107,7 @@ export default function MerchantPage() {
 						]}
 						labelKey="label"
 						valueKey="value"
-						queryField="type"
+						queryField={"type" as any}
 						query={query}
 						onFilter={onFilter}
 						placeholder="Мерчантын төрөл"

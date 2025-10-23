@@ -5,12 +5,10 @@ import { getMerchant, getMerchantList } from "./merchant.service";
 type MerchantQueryType =
 	| { type: "list"; query: IMerchantListQuery }
 	| { type: "detail"; merchant_id: string }
-	| { type: "transactions"; merchant_id: string };
 
 // Overload signatures 👇
 export function useMerchantQuery(config: { type: "list"; query: IMerchantListQuery }): UseQueryResult<IMerchantList>;
 export function useMerchantQuery(config: { type: "detail"; merchant_id: string }): UseQueryResult<IMerchantDetail>;
-export function useMerchantQuery(config: { type: "transactions"; merchant_id: string }): UseQueryResult<any>; // optional
 
 // Implementation 👇
 export function useMerchantQuery(config: MerchantQueryType) {
@@ -25,16 +23,6 @@ export function useMerchantQuery(config: MerchantQueryType) {
 			return useQuery({
 				queryKey: ["merchant:detail", config.merchant_id],
 				queryFn: () => getMerchant(config.merchant_id),
-				enabled: !!config.merchant_id,
-			});
-
-		case "transactions":
-			return useQuery({
-				queryKey: ["merchant:transactions", config.merchant_id],
-				queryFn: async () => {
-					// placeholder
-					return [];
-				},
 				enabled: !!config.merchant_id,
 			});
 

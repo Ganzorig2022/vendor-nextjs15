@@ -27,7 +27,6 @@ const HomePage = () => {
 
 	useEffect(() => {
 		if (general) updateGeneralData(general);
-		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [general]);
 
 	if (isLoading)

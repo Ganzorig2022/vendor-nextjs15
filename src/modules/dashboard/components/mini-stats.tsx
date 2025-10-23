@@ -1,5 +1,5 @@
 "use client";
-import { animate, m, useMotionValue, useTransform } from "framer-motion";
+import { animate, useMotionValue, useTransform } from "framer-motion";
 import { useEffect, useState } from "react";
 
 import { Badge } from "@/components/ui/badge";
@@ -7,17 +7,16 @@ import {
 	Card,
 	CardAction,
 	CardDescription,
-	CardFooter,
 	CardHeader,
-	CardTitle,
+	CardTitle
 } from "@/components/ui/card";
-import { TrendingDown, TrendingUp } from "lucide-react";
+import { TrendingUp } from "lucide-react";
 type Props = {
 	text: string;
 	data: number;
 	icon: string;
 };
-const MiniStats = ({ text, data, icon }: Props) => {
+const MiniStats = ({ text, data }: Props) => {
 	const count = useMotionValue(0);
 	const rounded = useTransform(count, Math.round);
 	const [display, setDisplay] = useState<number>(rounded.get());

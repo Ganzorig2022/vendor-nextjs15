@@ -2,7 +2,7 @@ import { MainContent } from "@/components/main-content";
 import { Spinner } from "@/components/ui/spinner";
 import { Suspense } from "react";
 
-const CardTransactionsLayoutContent = ({
+const P2pTransactionsLayoutContent = ({
 	children,
 }: {
 	children: React.ReactNode;
@@ -10,7 +10,7 @@ const CardTransactionsLayoutContent = ({
 	return (
 		<main className="">
 			<MainContent
-				leftTitle="Картын гүйлгээ
+				leftTitle="Дансны гүйлгээ
 ">
 				{children}
 			</MainContent>
@@ -18,18 +18,14 @@ const CardTransactionsLayoutContent = ({
 	);
 };
 
-const CardTransactionsLayout = ({
-	children,
-}: {
-	children: React.ReactNode;
-}) => {
+const P2pTransactionsLayout = ({ children }: { children: React.ReactNode }) => {
 	return (
 		<Suspense fallback={<Spinner className="mt-auto" />}>
-			<CardTransactionsLayoutContent>
+			<P2pTransactionsLayoutContent>
 				{children}
-			</CardTransactionsLayoutContent>
+			</P2pTransactionsLayoutContent>
 		</Suspense>
 	);
 };
 
-export default CardTransactionsLayout;
+export default P2pTransactionsLayout;

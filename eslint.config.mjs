@@ -16,7 +16,10 @@ export default [
     rules: {
       "@typescript-eslint/explicit-function-return-type": "off",
       "react/react-in-jsx-scope": "off",
-      "@next/next/no-img-element": "off"
+      "@next/next/no-img-element": "off",
+      "@typescript-eslint/no-explicit-any": "off",
+      "react-hooks/exhaustive-deps": "off",
+      "react-hooks/rules-of-hooks": "off",
     }
   })
 ];

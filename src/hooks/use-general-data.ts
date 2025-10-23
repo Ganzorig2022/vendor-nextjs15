@@ -1,7 +1,6 @@
-import { IMCC } from '@/modules/general/types/type';
 "use client";
-import { useMemo } from "react";
 import useMainStore from "@/modules/general/store/use-main-store";
+import { useMemo } from "react";
 
 export const useGeneralData = () => {
 	const generalData = useMainStore((s) => s.generalData);
