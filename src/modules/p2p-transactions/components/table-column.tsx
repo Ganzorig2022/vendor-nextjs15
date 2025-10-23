@@ -2,10 +2,10 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { DATE_FORMAT } from "@/core/constants/values";
 import {
-  convertBankName,
-  getBankName,
-  getCardTransactionType,
-  numberWithCommas
+	convertBankName,
+	getBankName,
+	getCardTransactionType,
+	numberWithCommas,
 } from "@/lib/utils";
 import { ColumnDef } from "@tanstack/react-table";
 import dayjs from "dayjs";
@@ -13,7 +13,10 @@ import { ArrowUpDown } from "lucide-react";
 import Image from "next/image";
 import { P2PTransactionRowItem } from "../types/type";
 
-export const columns: ColumnDef<P2PTransactionRowItem>[] = [
+export const columns = (
+	page: number,
+	limit: number
+): ColumnDef<P2PTransactionRowItem>[] => [
 	{
 		accessorKey: "index",
 		header: ({ column }) => {
@@ -29,7 +32,8 @@ export const columns: ColumnDef<P2PTransactionRowItem>[] = [
 			);
 		},
 		cell: ({ row }) => {
-			return <div className="text-center font-medium">{+row.id + 1}</div>;
+			const globalIndex = (page - 1) * limit + (row.index + 1);
+			return <div className="text-center font-medium">{globalIndex}</div>;
 		},
 	},
 	{

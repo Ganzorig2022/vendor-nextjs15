@@ -62,7 +62,7 @@ async function proxyHandler(
 	} catch (error) {
 		console.error("❌ Proxy error:", error);
 		return NextResponse.json(
-			{ ok: false, message: "Proxy request failed" },
+			{ ok: false, message: "Сервертэй холбогдоход алдаа гарлаа." },
 			{ status: 500 }
 		);
 	}

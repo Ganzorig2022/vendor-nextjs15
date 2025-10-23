@@ -2,6 +2,7 @@
 
 import { CustomSelect } from "@/components/shared/custom-select";
 import { DatePicker } from "@/components/shared/date-picker";
+import { PaginationBar } from "@/components/shared/pagination-bar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -9,7 +10,7 @@ import { Input } from "@/components/ui/input";
 import { Spinner } from "@/components/ui/spinner";
 import { useGeneralData } from "@/hooks/use-general-data";
 import { useSearchFilter } from "@/hooks/use-search-filter";
-import { getCardTransactionType } from "@/lib/utils";
+import { getCardTransactionType, numberWithCommas } from "@/lib/utils";
 import useMainStore from "@/modules/general/store/use-main-store";
 import { ComboBoxMCC } from "@/modules/merchant/components/combo-box-mcc";
 import { useP2pTransactionsMutations } from "@/modules/p2p-transactions/api/p2p-transactions.mutations";
@@ -22,7 +23,8 @@ import { toast } from "sonner";
 const CardTransactionsPage = () => {
 	const { generalData } = useMainStore((s) => s);
 	const { CARD_TRANSACTIONS_ARRAY } = useGeneralData();
-	const { onFilterClear, onFilter, query } = useSearchFilter();
+	const { query, onFilter, onFilterClear, onPageChange, onLimitChange } =
+		useSearchFilter();
 	const { mccs } = generalData;
 	const { data, isLoading } = useP2pTransactionsQuery({
 		type: "list",
@@ -159,12 +161,33 @@ const CardTransactionsPage = () => {
 				</div>
 
 				{/* 🔹 Table */}
-				<div className="mt-5">
+				<div className="mt-5 flex flex-col">
 					{data && (
-						<P2pTransactionsListTable
-							columns={columns}
-							data={data.rows}
-						/>
+						<>
+							<div className="ml-auto p-4">
+								Хуудасны нийт дүн:
+								<span className="ml-2">
+									{numberWithCommas(
+										(+data.totalAmountPerPage || 0).toFixed(
+											2
+										)
+									)}
+								</span>
+							</div>
+							<P2pTransactionsListTable
+								columns={columns(query.page, query.limit)}
+								data={data?.rows ?? []}
+								isLoading={isLoading}
+							/>
+							<PaginationBar
+								page={query.page}
+								limit={query.limit}
+								totalCount={data?.count ?? 0}
+								onPageChange={onPageChange}
+								onLimitChange={onLimitChange}
+								isLoading={isLoading}
+							/>
+						</>
 					)}
 				</div>
 			</Card>

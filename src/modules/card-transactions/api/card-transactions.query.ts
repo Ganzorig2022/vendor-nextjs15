@@ -39,6 +39,8 @@ export function useCardTransactionsQuery(config: MerchantQueryType) {
 			});
 
 		default:
-			throw new Error("Unsupported query type for useCardTransactionsQuery");
+			throw new Error(
+				"Unsupported query type for useCardTransactionsQuery"
+			);
 	}
 }
