@@ -28,7 +28,7 @@ export const initialPageValues = {
   page: 1,
   limit: 20,
   reload: false,
-  search: null,
+  search: undefined,
 }
 
 export const DATE_FORMAT = 'YYYY-MM-DD HH:mm'

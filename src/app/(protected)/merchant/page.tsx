@@ -1,6 +1,5 @@
 "use client";
 
-import { ComboBoxMCC } from "@/components/shared/combobox-mcc";
 import { CustomSelect } from "@/components/shared/custom-select";
 import { DatePicker } from "@/components/shared/date-picker";
 import { Button } from "@/components/ui/button";
@@ -10,6 +9,8 @@ import { Spinner } from "@/components/ui/spinner";
 import { useSearchFilter } from "@/hooks/use-search-filter";
 import useMainStore from "@/modules/general/store/use-main-store";
 import { useMerchantQuery } from "@/modules/merchant/api/merchant.query";
+import { ComboBoxBusinessDirection } from "@/modules/merchant/components/combo-box-business-direction";
+import { ComboBoxMCC } from "@/modules/merchant/components/combo-box-mcc";
 import MerchantCreateModal from "@/modules/merchant/components/merchant-create-modal";
 import { MerchantListTable } from "@/modules/merchant/components/table";
 import { columns } from "@/modules/merchant/components/table-column";
@@ -27,7 +28,7 @@ const MerchantPage = () => {
 	const [openModal, setOpenModal] = useState(false);
 	const { onFilterClear, onFilter, query } = useSearchFilter();
 	const { generalData } = useMainStore((s) => s);
-	const { mccs } = generalData;
+	const { mccs, business_directions } = generalData;
 	const { data, refetch, isLoading } = useMerchantQuery({
 		type: "list",
 		query: query,
@@ -88,22 +89,25 @@ const MerchantPage = () => {
 							]}
 						/>
 					</div>
-					<div>
-						<ComboBoxMCC
-							onFilter={onFilter}
-							query={query}
-							data={mccs}
-						/>
-					</div>
-					<div>
+					<ComboBoxMCC
+						data={mccs}
+						value={query.mcc_code}
+						onChange={(v) => onFilter({ mcc_code: v })}
+					/>
+					<ComboBoxBusinessDirection
+						data={business_directions}
+						value={query.g_business_direction_id}
+						onChange={(v) =>
+							onFilter({ g_business_direction_id: v })
+						}
+					/>
+					<div className="gap-2 flex">
 						<DatePicker
 							placeholder="Эхлэх огноо"
 							onFilter={onFilter}
 							query={query}
 							type="start_date"
 						/>
-					</div>
-					<div>
 						<DatePicker
 							placeholder="Дуусах огноо"
 							onFilter={onFilter}
@@ -111,7 +115,7 @@ const MerchantPage = () => {
 							type="end_date"
 						/>
 					</div>
-					<m.div whileTap={{ scale: 0.85 }}>
+					<div className="gap-2 flex">
 						<Button
 							variant="clear_search"
 							size="sm"
@@ -119,15 +123,15 @@ const MerchantPage = () => {
 							<SearchX className="h-4 w-4 mr-2" />
 							Цэвэрлэх
 						</Button>
-					</m.div>
-					<Button
-						variant="success"
-						size="sm"
-						onClick={() => onFilterClear(true)}
-						disabled={isLoading}>
-						<ListRestart className="h-4 w-4" />
-						Шинэчлэх
-					</Button>
+						<Button
+							variant="success"
+							size="sm"
+							onClick={() => onFilterClear(true)}
+							disabled={isLoading}>
+							<ListRestart className="h-4 w-4" />
+							Шинэчлэх
+						</Button>
+					</div>
 				</div>
 				<div className="mt-5">
 					{data && (

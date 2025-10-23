@@ -49,7 +49,7 @@ interface MCCBank {
   status: boolean
 }
 
-export interface BusinessDirection {
+export interface IBusinessDirection {
   id: string
   is_active: boolean
   name: string
@@ -178,7 +178,7 @@ export interface IGeneralData {
   acquirers: Acquirer[]
   s3host: string
   mccs: IMCC[]
-  business_directions: BusinessDirection[]
+  business_directions: IBusinessDirection[]
   approved_account_banks: ApprovedAccountBank[]
   banks: Bank[]
   fiBranches: Branch[]

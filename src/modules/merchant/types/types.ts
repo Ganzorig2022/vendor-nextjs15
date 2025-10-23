@@ -1,18 +1,19 @@
 export interface IMerchantListQuery {
 	page: number;
 	limit: number;
-	search?: string | null;
-	start_date?: string | null;
-	end_date?: string | null;
-	mcc_code?: string | null;
-	mcc_code_mon?: string | null;
-	g_branch_id?: string | null;
-	allowed_transaction?: string | null;
-	transaction_type?: string | null;
-	transaction_status?: string | null;
-	start_year?: string | null;
-	type?: string | null;
-	reload?: boolean | null;
+	search?: string | undefined;
+	start_date?: string | undefined;
+	end_date?: string | undefined;
+	mcc_code?: string | undefined;
+	mcc_code_mon?: string | undefined;
+	g_branch_id?: string | undefined;
+	allowed_transaction?: string | undefined;
+	transaction_type?: string | undefined;
+	transaction_status?: string | undefined;
+	start_year?: string | undefined;
+	type?: string | undefined;
+	reload?: boolean | undefined;
+	g_business_direction_id?: string | undefined;
 }
 
 export interface IMerchantItem {

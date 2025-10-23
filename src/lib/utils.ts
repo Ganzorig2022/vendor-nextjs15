@@ -1,4 +1,4 @@
-import { BusinessDirection, CardTransactionType, IMCC, City, District } from '@/modules/general/types/type'
+import { IBusinessDirection, CardTransactionType, IMCC, City, District } from '@/modules/general/types/type'
 import { clsx, type ClassValue } from 'clsx'
 import { twMerge } from 'tailwind-merge'
 
@@ -96,7 +96,7 @@ export const getBusinessDirection = (value: string) => {
   }
 
   const mccName = business_directions?.find(
-    (b_direction: BusinessDirection) => b_direction.id === value,
+    (b_direction: IBusinessDirection) => b_direction.id === value,
   )?.name
   return mccName
 }
