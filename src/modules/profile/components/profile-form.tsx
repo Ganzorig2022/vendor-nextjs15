@@ -22,7 +22,7 @@ type MerchantFormData = z.infer<typeof merchantSchema>;
 type UserFormData = z.infer<typeof userSchema>;
 
 export function ProfileForm() {
-	const { user, merchant } = useAuthStore((s) => s);
+	const { user, merchant, clientName, processCode } = useAuthStore((s) => s);
 	const isCitizen: boolean = merchant?.owner_type === "CITIZEN";
 	const toastShownRef = useRef(false);
 	const [showModal, setShowModal] = useState(false);
@@ -34,8 +34,8 @@ export function ProfileForm() {
 			merchantName: merchant?.customer_name ?? "",
 			lastName: merchant?.owner_last_name ?? "",
 			firstName: merchant?.owner_first_name ?? "",
-			processCode: "GOLOMTBANK_VD00000030_1000029",
-			quickQrName: "байхгүй",
+			processCode: processCode ?? "",
+			quickQrName: clientName ?? "",
 			register: merchant?.owner_register_no ?? "",
 		},
 	});
