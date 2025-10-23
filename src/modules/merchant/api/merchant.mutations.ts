@@ -4,6 +4,7 @@ import { useMutation } from "@tanstack/react-query";
 import {
 	merchantCompanyCreate,
 	merchantCompanyUpdate,
+	merchantExport,
 	merchantPersonCreate,
 	merchantPersonUpdate,
 } from "./merchant.service";
@@ -19,7 +20,7 @@ export const useMerchantMutations = (opts?: {
 			opts?.onSuccess?.(data);
 		},
 		onError: (err: APIError) => {
-			opts?.onError?.(err); //
+			opts?.onError?.(err);
 		},
 	});
 
@@ -29,7 +30,7 @@ export const useMerchantMutations = (opts?: {
 			opts?.onSuccess?.(data);
 		},
 		onError: (err: APIError) => {
-			opts?.onError?.(err); //
+			opts?.onError?.(err);
 		},
 	});
 
@@ -49,7 +50,17 @@ export const useMerchantMutations = (opts?: {
 			opts?.onSuccess?.(data);
 		},
 		onError: (err: APIError) => {
-			opts?.onError?.(err); //
+			opts?.onError?.(err);
+		},
+	});
+
+	const merchantExportMutation = useMutation({
+		mutationFn: merchantExport,
+		onSuccess: (data) => {
+			opts?.onSuccess?.(data);
+		},
+		onError: (err: APIError) => {
+			opts?.onError?.(err);
 		},
 	});
 
@@ -58,5 +69,6 @@ export const useMerchantMutations = (opts?: {
 		merchantPersonCreateMutation,
 		merchantCompanyUpdateMutation,
 		merchantPersonUpdateMutation,
+		merchantExportMutation,
 	};
 };

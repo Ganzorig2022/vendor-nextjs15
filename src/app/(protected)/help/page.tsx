@@ -6,7 +6,6 @@ import Image from "next/image";
 export default function Help() {
 	return (
 		<div className="flex flex-col items-center justify-center gap-3 py-6">
-			{/* Internal link to static PDF */}
 			<Link
 				href="/help/manual.pdf"
 				target="_blank"
@@ -20,7 +19,7 @@ export default function Help() {
 						height={200}
 						priority
 						sizes="200px"
-						className="object-contain"
+						className="object-contain w-auto h-auto"
 					/>
 				</div>
 				<span className="mt-2 text-xs font-medium text-foreground group-hover:text-primary">

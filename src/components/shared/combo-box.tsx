@@ -18,16 +18,16 @@ import {
 } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
 
-// ✅ Generic type for dynamic datasets
 interface ComboBoxProps<T extends Record<string, any>> {
-	labelKey: keyof T; // Which field to show as text
-	valueKey: keyof T; // Which field to use as the value
-	data: T[]; // The dataset (can be MCC[], BusinessDirection[], etc.)
-	onSelect: (value: string, item: T | undefined) => void; // Callback
+	labelKey: keyof T;
+	valueKey: keyof T;
+	data: T[];
+	onSelect: (value: string, item: T | undefined) => void;
 	placeholder?: string;
 	emptyText?: string;
 	selectedValue?: string;
 	className?: string;
+	disabled?: boolean;
 }
 
 export function ComboBox<T extends Record<string, any>>({
@@ -39,12 +39,13 @@ export function ComboBox<T extends Record<string, any>>({
 	emptyText = "Мэдээлэл олдсонгүй.",
 	selectedValue,
 	className,
+	disabled = false,
 }: ComboBoxProps<T>) {
 	const [open, setOpen] = React.useState(false);
 	const [value, setValue] = React.useState(selectedValue ?? "");
 	const [key, setKey] = React.useState(crypto.randomUUID());
 
-	// Reset when data changes or value cleared
+	// Reset when cleared or data changes
 	React.useEffect(() => {
 		if (!selectedValue) {
 			setValue("");
@@ -52,12 +53,11 @@ export function ComboBox<T extends Record<string, any>>({
 		}
 	}, [selectedValue, data]);
 
-	// Helper to find selected item
 	const selectedItem = data.find((item) => String(item[valueKey]) === value);
 
 	return (
 		<Popover
-			open={open}
+			open={!disabled && open}
 			onOpenChange={setOpen}
 			key={key}>
 			<PopoverTrigger asChild>
@@ -65,8 +65,10 @@ export function ComboBox<T extends Record<string, any>>({
 					variant="outline"
 					role="combobox"
 					aria-expanded={open}
+					disabled={disabled}
 					className={cn(
 						"w-[300px] justify-between text-gray-500",
+						disabled && "cursor-not-allowed opacity-60",
 						className
 					)}>
 					{selectedItem
@@ -76,45 +78,47 @@ export function ComboBox<T extends Record<string, any>>({
 				</Button>
 			</PopoverTrigger>
 
-			<PopoverContent className="w-[300px] p-0">
-				<Command>
-					<CommandInput placeholder={placeholder} />
-					<CommandList>
-						<CommandEmpty>{emptyText}</CommandEmpty>
-						<CommandGroup>
-							{data.map((item) => {
-								const itemValue = String(item[valueKey]);
-								const itemLabel = String(item[labelKey]);
-								return (
-									<CommandItem
-										key={itemValue}
-										value={itemLabel}
-										onSelect={() => {
-											const newValue =
-												itemValue === value
-													? ""
-													: itemValue;
-
-											setValue(newValue);
-											setOpen(false);
-											onSelect(newValue, item);
-										}}>
-										<Check
-											className={cn(
-												"mr-2 h-4 w-4",
-												value === itemValue
-													? "opacity-100"
-													: "opacity-0"
-											)}
-										/>
-										{itemLabel}
-									</CommandItem>
-								);
-							})}
-						</CommandGroup>
-					</CommandList>
-				</Command>
-			</PopoverContent>
+			{/* Disable interaction if disabled */}
+			{!disabled && (
+				<PopoverContent className="w-[300px] p-0">
+					<Command>
+						<CommandInput placeholder={placeholder} />
+						<CommandList>
+							<CommandEmpty>{emptyText}</CommandEmpty>
+							<CommandGroup>
+								{data.map((item) => {
+									const itemValue = String(item[valueKey]);
+									const itemLabel = String(item[labelKey]);
+									return (
+										<CommandItem
+											key={itemValue}
+											value={itemLabel}
+											onSelect={() => {
+												const newValue =
+													itemValue === value
+														? ""
+														: itemValue;
+												setValue(newValue);
+												setOpen(false);
+												onSelect(newValue, item);
+											}}>
+											<Check
+												className={cn(
+													"mr-2 h-4 w-4",
+													value === itemValue
+														? "opacity-100"
+														: "opacity-0"
+												)}
+											/>
+											{itemLabel}
+										</CommandItem>
+									);
+								})}
+							</CommandGroup>
+						</CommandList>
+					</Command>
+				</PopoverContent>
+			)}
 		</Popover>
 	);
 }

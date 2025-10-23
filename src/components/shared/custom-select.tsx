@@ -12,6 +12,7 @@ import {
 import { getCardTransactionType } from '@/lib/utils'
 import { IMerchantListQuery } from '@/modules/merchant/types/types'
 import { useEffect, useState } from 'react'
+import { cn } from '@/lib/utils'
 
 type SelectOption = {
   value: string
@@ -24,6 +25,7 @@ type Props = {
   queryField: string
   placeholder: string
   options: SelectOption[]
+  disabled?: boolean
 }
 
 export const CustomSelect = ({
@@ -32,6 +34,7 @@ export const CustomSelect = ({
   queryField,
   placeholder,
   options,
+  disabled = false,
 }: Props) => {
   const [key, setKey] = useState(crypto.randomUUID())
 
@@ -41,44 +44,55 @@ export const CustomSelect = ({
     }
   }, [query])
 
+  const value = query[queryField as keyof IMerchantListQuery] as string | undefined
+
   return (
     <Select
       key={key}
-      // @ts-ignore
-      value={query[queryField as keyof IMerchantListQuery]}
+      value={value ?? ''}
       onValueChange={(val) => {
-        onFilter({ [queryField]: val })
+        if (!disabled) onFilter({ [queryField]: val })
       }}
+      disabled={disabled}
     >
-      <SelectTrigger className="w-[200px] text-muted-foreground">
+      <SelectTrigger
+        disabled={disabled}
+        className={cn(
+          'w-[200px] text-muted-foreground',
+          disabled && 'cursor-not-allowed opacity-60',
+        )}
+      >
         <SelectValue placeholder={placeholder} />
       </SelectTrigger>
-      <SelectContent>
-        <SelectGroup>
-          {options.map((option) => {
-            let card_type
-            if (queryField === 'transaction_type') {
-              card_type = getCardTransactionType(option.value)
-            }
-            return (
-              <SelectItem key={option.value} value={option.value}>
-                {queryField === 'transaction_status' ? (
-                  <Badge variant={option.value.toLowerCase() as any}>
-                    {option.value === 'SUCCESS' ? 'Амжилттай' : 'Амжилтгүй'}
-                  </Badge>
-                ) : queryField === 'transaction_type' ? (
-                  <Badge variant={card_type?.code.toLowerCase() ?? 'default'}>
-                    {card_type?.name}
-                  </Badge>
-                ) : (
-                  option.label
-                )}
-              </SelectItem>
-            )
-          })}
-        </SelectGroup>
-      </SelectContent>
+
+      {!disabled && (
+        <SelectContent>
+          <SelectGroup>
+            {options.map((option) => {
+              let cardType = undefined
+              if (queryField === 'transaction_type') {
+                cardType = getCardTransactionType(option.value)
+              }
+
+              return (
+                <SelectItem key={option.value} value={option.value}>
+                  {queryField === 'transaction_status' ? (
+                    <Badge variant={option.value.toLowerCase() as any}>
+                      {option.value === 'SUCCESS' ? 'Амжилттай' : 'Амжилтгүй'}
+                    </Badge>
+                  ) : queryField === 'transaction_type' ? (
+                    <Badge variant={cardType?.code.toLowerCase() ?? 'default'}>
+                      {cardType?.name}
+                    </Badge>
+                  ) : (
+                    option.label
+                  )}
+                </SelectItem>
+              )
+            })}
+          </SelectGroup>
+        </SelectContent>
+      )}
     </Select>
   )
 }
-

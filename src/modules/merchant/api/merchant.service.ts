@@ -1,5 +1,6 @@
 import { axiosClientWithAuh } from "@/core/api/api.client";
 import {
+	ExcelExportResponse,
 	IMerchantDetail,
 	IMerchantItem,
 	IMerchantList,
@@ -32,7 +33,10 @@ export const getMerchant = async (
 export const merchantCompanyCreate = async (
 	payload: CompanyMerchantFormType | PersonMerchantFormType
 ): Promise<IMerchantItem> => {
-	const { data } = await axiosClientWithAuh.post("/merchant/company", payload);
+	const { data } = await axiosClientWithAuh.post(
+		"/merchant/company",
+		payload
+	);
 	return data;
 };
 
@@ -60,5 +64,12 @@ export const merchantPersonUpdate = async (
 		"/merchant/person_update",
 		payload
 	);
+	return data;
+};
+
+export const merchantExport = async (
+	payload: IMerchantListQuery
+): Promise<ExcelExportResponse> => {
+	const { data } = await axiosClientWithAuh.post("/merchant/export", payload);
 	return data;
 };
