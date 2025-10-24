@@ -205,54 +205,6 @@ export interface P2PTransactionExcel {
 	merchant_id?: string;
 }
 
-interface File {
-	path: string;
-	name: string;
-	size: number;
-	created_date: string;
-	created_by: string;
-}
-
-interface Date {
-	year: number;
-	month: number;
-	day?: number;
-}
-
-interface Stats {
-	payment_count: number;
-	sum_payment_amount: number;
-	payment_count_paid: number;
-	sum_payment_amount_paid: number;
-	charge_transaction_count: number;
-	sum_charge_transaction_amount: number;
-	charge_transaction_count_success: number;
-	sum_charge_transaction_amount_success: number;
-	payment_transaction_count: number;
-	sum_payment_transaction_amount: number;
-	payment_transaction_count_success: number;
-	sum_payment_transaction_amount_success: number;
-}
-
-export interface DailyExcels {
-	_id: string;
-	bank_code: string;
-	date: Date;
-	fi_id: string;
-	file: File;
-	stats: Stats;
-}
-
-export interface MonthlyExcels {
-	_id: string;
-	bank_code: string;
-	date: Date;
-	fi_id: string;
-	file: File;
-	stats: Stats;
-	daily_excels: DailyExcels[];
-}
-
 export interface P2pExcelListQuery {
 	page: number;
 	limit: number;

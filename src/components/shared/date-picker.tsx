@@ -71,7 +71,7 @@ export function DatePicker({
 								onFilter({ [type]: formatISO(date) });
 							}
 						}}
-						initialFocus
+						autoFocus
 					/>
 				</PopoverContent>
 			)}

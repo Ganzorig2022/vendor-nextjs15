@@ -16,17 +16,6 @@ export const getCardTransactionList = async (
 	return data;
 };
 
-export const geCardTransactionReportList = async (
-	payload: CardTransactionExcelListQuery
-): Promise<any> => {
-	const { page, limit, start_year } = payload;
-	const { data } = await axiosClientWithAuh.post(
-		`/card_transaction/excel?page=${page}&limit=${limit}&start_year=${start_year}`,
-		payload
-	);
-	return data;
-};
-
 export const cardTransactionsExport = async (
 	payload: CardTransactionQuery
 ): Promise<CardTransactionExportResponse> => {

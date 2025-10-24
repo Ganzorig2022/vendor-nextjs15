@@ -2,30 +2,30 @@ import { MainContent } from "@/components/main-content";
 import { Spinner } from "@/components/ui/spinner";
 import { Suspense } from "react";
 
-const CardTransactionsLayoutContent = ({
+const CardReportLayoutContent = ({
 	children,
 }: {
 	children: React.ReactNode;
 }) => {
 	return (
 		<main className="">
-			<MainContent leftTitle="Картын гүйлгээ">{children}</MainContent>
+			<MainContent leftTitle="Картын гүйлгээний тайлан">{children}</MainContent>
 		</main>
 	);
 };
 
-const CardTransactionsLayout = ({
+const CardReportLayout = ({
 	children,
 }: {
 	children: React.ReactNode;
 }) => {
 	return (
 		<Suspense fallback={<Spinner className="mt-auto" />}>
-			<CardTransactionsLayoutContent>
+			<CardReportLayoutContent>
 				{children}
-			</CardTransactionsLayoutContent>
+			</CardReportLayoutContent>
 		</Suspense>
 	);
 };
 
-export default CardTransactionsLayout;
+export default CardReportLayout;
