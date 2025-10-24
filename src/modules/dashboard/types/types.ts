@@ -1,6 +1,20 @@
 export interface INewDashboardData {
 	merchant: IMerchantCount;
 	p2p_transactions: P2pTransactionDashboard[];
+	card_transactions: P2pTransactionDashboard[];
+	merchant_recruitment: IMerchantRecruitment[];
+	transaction_totals: ITransaction_totals;
+}
+
+export interface ITransaction_totals {
+	p2p: {
+		success: number;
+		failed: number;
+	};
+	card: {
+		success: number;
+		failed: number;
+	};
 }
 
 export interface P2pTransactionDashboard {
@@ -9,6 +23,12 @@ export interface P2pTransactionDashboard {
 	total_transactions: number;
 	year: number;
 	month: number;
+}
+
+export interface IMerchantRecruitment {
+	year: number;
+	month: number;
+	count: number;
 }
 
 export interface IMerchantCount {
