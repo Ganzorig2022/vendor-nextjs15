@@ -1,7 +1,5 @@
 "use client";
 
-import { motion, useMotionValue, useTransform, animate } from "framer-motion";
-import { useEffect, useState } from "react";
 import {
 	Card,
 	CardDescription,
@@ -9,13 +7,15 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@/components/ui/card";
+import { animate, useMotionValue, useTransform } from "framer-motion";
 import {
+	BarChart3,
+	CalendarDays,
 	TrendingDown,
 	TrendingUp,
 	Users,
-	CalendarDays,
-	BarChart3,
 } from "lucide-react";
+import { useEffect, useState } from "react";
 
 type Props = {
 	title: string;

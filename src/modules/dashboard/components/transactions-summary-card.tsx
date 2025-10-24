@@ -1,21 +1,20 @@
 "use client";
 
-import { motion, useMotionValue, useTransform, animate } from "framer-motion";
-import { useEffect, useState } from "react";
 import {
 	Card,
 	CardContent,
+	CardFooter,
 	CardHeader,
 	CardTitle,
-	CardFooter,
 } from "@/components/ui/card";
+import { animate, motion, useMotionValue, useTransform } from "framer-motion";
 import {
 	Banknote,
 	CreditCard,
-	TrendingUp,
 	TrendingDown,
-	Wallet2,
+	TrendingUp
 } from "lucide-react";
+import { useEffect, useState } from "react";
 
 type TransactionTotals = {
 	success: number;

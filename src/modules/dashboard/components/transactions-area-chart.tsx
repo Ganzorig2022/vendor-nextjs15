@@ -1,9 +1,6 @@
 "use client";
 
-import * as React from "react";
-import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from "recharts";
-import dayjs from "dayjs";
-import { useIsMobile } from "@/hooks/use-mobile";
+import { rangeQueryType } from "@/app/(protected)/page";
 import {
 	Card,
 	CardAction,
@@ -25,9 +22,12 @@ import {
 	SelectValue,
 } from "@/components/ui/select";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
+import { useIsMobile } from "@/hooks/use-mobile";
+import dayjs from "dayjs";
 import isSameOrAfter from "dayjs/plugin/isSameOrAfter";
 import isSameOrBefore from "dayjs/plugin/isSameOrBefore";
-import { rangeQueryType } from "@/app/(protected)/page";
+import * as React from "react";
+import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from "recharts";
 
 dayjs.extend(isSameOrAfter);
 dayjs.extend(isSameOrBefore);
@@ -65,7 +65,9 @@ export function ChartAreaInteractive({
 		);
 
 		const parsed = sorted.map((item) => ({
-			date: dayjs(`${item.year}-${String(item.month).padStart(2, "0")}-01`),
+			date: dayjs(
+				`${item.year}-${String(item.month).padStart(2, "0")}-01`
+			),
 			success: Number(item.success || 0),
 			failed: Number(item.failed || 0),
 		}));
@@ -161,8 +163,12 @@ export function ChartAreaInteractive({
 						className="hidden *:data-[slot=toggle-group-item]:!px-4 @[767px]/card:flex">
 						<ToggleGroupItem value="ytd">Энэ жил</ToggleGroupItem>
 						<ToggleGroupItem value="1y">Өмнөх жил</ToggleGroupItem>
-						<ToggleGroupItem value="6m">Сүүлийн 6 сар</ToggleGroupItem>
-						<ToggleGroupItem value="3m">Сүүлийн 3 сар</ToggleGroupItem>
+						<ToggleGroupItem value="6m">
+							Сүүлийн 6 сар
+						</ToggleGroupItem>
+						<ToggleGroupItem value="3m">
+							Сүүлийн 3 сар
+						</ToggleGroupItem>
 					</ToggleGroup>
 
 					<Select
@@ -175,7 +181,9 @@ export function ChartAreaInteractive({
 								transactionType,
 							});
 						}}>
-						<SelectTrigger className="flex w-40 @[767px]/card:hidden" size="sm">
+						<SelectTrigger
+							className="flex w-40 @[767px]/card:hidden"
+							size="sm">
 							<SelectValue placeholder="Сүүлийн 6 сар" />
 						</SelectTrigger>
 						<SelectContent className="rounded-xl">
@@ -189,22 +197,54 @@ export function ChartAreaInteractive({
 			</CardHeader>
 
 			<CardContent className="px-2 pt-4 sm:px-6 sm:pt-6">
-				<ChartContainer config={chartConfig} className="aspect-auto h-[300px] w-full">
+				<ChartContainer
+					config={chartConfig}
+					className="aspect-auto h-[300px] w-full">
 					<AreaChart
 						data={filteredData}
 						margin={{ top: 20, right: 40, left: 60, bottom: 30 }}>
 						<defs>
-							<linearGradient id="fillFailed" x1="0" y1="0" x2="0" y2="1">
-								<stop offset="5%" stopColor="var(--color-merchant)" stopOpacity={0.5} />
-								<stop offset="95%" stopColor="var(--color-merchant)" stopOpacity={0.05} />
+							<linearGradient
+								id="fillFailed"
+								x1="0"
+								y1="0"
+								x2="0"
+								y2="1">
+								<stop
+									offset="5%"
+									stopColor="var(--color-merchant)"
+									stopOpacity={0.5}
+								/>
+								<stop
+									offset="95%"
+									stopColor="var(--color-merchant)"
+									stopOpacity={0.05}
+								/>
 							</linearGradient>
-							<linearGradient id="fillSuccess" x1="0" y1="0" x2="0" y2="1">
-								<stop offset="5%" stopColor="var(--color-transfer)" stopOpacity={0.5} />
-								<stop offset="95%" stopColor="var(--color-transfer)" stopOpacity={0.05} />
+							<linearGradient
+								id="fillSuccess"
+								x1="0"
+								y1="0"
+								x2="0"
+								y2="1">
+								<stop
+									offset="5%"
+									stopColor="var(--color-transfer)"
+									stopOpacity={0.5}
+								/>
+								<stop
+									offset="95%"
+									stopColor="var(--color-transfer)"
+									stopOpacity={0.05}
+								/>
 							</linearGradient>
 						</defs>
 
-						<CartesianGrid strokeDasharray="3 3" stroke="rgba(0,0,0,0.06)" vertical={false} />
+						<CartesianGrid
+							strokeDasharray="3 3"
+							stroke="rgba(0,0,0,0.06)"
+							vertical={false}
+						/>
 
 						<XAxis
 							dataKey="date"
@@ -225,7 +265,9 @@ export function ChartAreaInteractive({
 							width={80}
 							tickMargin={8}
 							fontSize={12}
-							tickFormatter={(v) => (v / successScale.divisor).toFixed(1)}
+							tickFormatter={(v) =>
+								(v / successScale.divisor).toFixed(1)
+							}
 							label={{
 								value: `Амжилттай (${successScale.label})`,
 								angle: -90,
@@ -248,7 +290,9 @@ export function ChartAreaInteractive({
 							width={80}
 							tickMargin={8}
 							fontSize={12}
-							tickFormatter={(v) => (v / failedScale.divisor).toFixed(1)}
+							tickFormatter={(v) =>
+								(v / failedScale.divisor).toFixed(1)
+							}
 							label={{
 								value: `Амжилтгүй (${failedScale.label})`,
 								angle: 90,
@@ -263,14 +307,22 @@ export function ChartAreaInteractive({
 						/>
 
 						<ChartTooltip
-							cursor={{ stroke: "rgba(0,0,0,0.15)", strokeWidth: 1 }}
+							cursor={{
+								stroke: "rgba(0,0,0,0.15)",
+								strokeWidth: 1,
+							}}
 							content={
 								<ChartTooltipContent
 									labelFormatter={(value) =>
-										dayjs(value, "YYYY-MM-DD").format("MMM YYYY")
+										dayjs(value, "YYYY-MM-DD").format(
+											"MMM YYYY"
+										)
 									}
 									indicator="dot"
-									style={{ fontSize: 12, padding: "6px 10px" }}
+									style={{
+										fontSize: 12,
+										padding: "6px 10px",
+									}}
 								/>
 							}
 						/>

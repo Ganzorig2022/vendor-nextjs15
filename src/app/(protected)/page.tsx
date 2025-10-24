@@ -1,7 +1,6 @@
 "use client";
 
 import { Spinner } from "@/components/ui/spinner";
-import { miniChartData } from "@/core/constants/values";
 import { useDashboardQuery } from "@/modules/dashboard/api/dashboard.query";
 import { MiniStats } from "@/modules/dashboard/components";
 import { MerchantRecruitmentBarChart } from "@/modules/dashboard/components/merchants-bar-chart";
@@ -134,6 +133,7 @@ const HomePage = () => {
 						/>
 					</div>
 
+					{/* 🧭 Merchant chart */}
 					<div className="px-4 lg:px-6">
 						<MerchantRecruitmentBarChart
 							data={data.merchant_recruitment}

@@ -1,18 +1,6 @@
 "use client";
 
-import * as React from "react";
-import {
-	BarChart,
-	Bar,
-	CartesianGrid,
-	XAxis,
-	YAxis,
-	ResponsiveContainer,
-} from "recharts";
-import dayjs from "dayjs";
-import isSameOrAfter from "dayjs/plugin/isSameOrAfter";
-import isSameOrBefore from "dayjs/plugin/isSameOrBefore";
-import { useIsMobile } from "@/hooks/use-mobile";
+import { rangeQueryType } from "@/app/(protected)/page";
 import {
 	Card,
 	CardAction,
@@ -21,6 +9,11 @@ import {
 	CardTitle,
 } from "@/components/ui/card";
 import {
+	ChartContainer,
+	ChartTooltip,
+	ChartTooltipContent,
+} from "@/components/ui/chart";
+import {
 	Select,
 	SelectContent,
 	SelectItem,
@@ -28,12 +21,19 @@ import {
 	SelectValue,
 } from "@/components/ui/select";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
+import { useIsMobile } from "@/hooks/use-mobile";
+import dayjs from "dayjs";
+import isSameOrAfter from "dayjs/plugin/isSameOrAfter";
+import isSameOrBefore from "dayjs/plugin/isSameOrBefore";
+import * as React from "react";
 import {
-	ChartContainer,
-	ChartTooltip,
-	ChartTooltipContent,
-} from "@/components/ui/chart";
-import { rangeQueryType } from "@/app/(protected)/page";
+	Bar,
+	BarChart,
+	CartesianGrid,
+	ResponsiveContainer,
+	XAxis,
+	YAxis,
+} from "recharts";
 
 dayjs.extend(isSameOrAfter);
 dayjs.extend(isSameOrBefore);
